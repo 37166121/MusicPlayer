@@ -1,0 +1,10 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fixed_height_bottom_padding">5sp</dimen>
+    <dimen name="page_margins_horizontal">15dp</dimen>
+    <dimen name="page_margins_vertical">15dp</dimen>
+    <dimen name="page_radian">5dp</dimen>
+    <dimen name="popup_radian">15dp</dimen>
+</resources>

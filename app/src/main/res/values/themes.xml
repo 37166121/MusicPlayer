@@ -1,0 +1,77 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MusicPlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+    </style>
+
+    <style name="Nav">
+        <item name="colorPrimary">@color/nav_color</item>
+        <item name="android:textColorSecondary">@color/nav_color_normal</item>
+    </style>
+    
+    <style name="PopupWindowAnimation">
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+    </style>
+
+    <!--选中的样式，可以设置选择的字体颜色，这里只是为了改变选择时的字体大小-->
+    <style name="bottom_tab_title_active">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--没有选中的样式，导航默认的字体大小就是12sp-->
+    <style name="bottom_tab_title_inactive">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="Text.Normal">
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.SubNormal">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Title">
+        <item name="android:textColor">@color/text_color_title</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.SubTitle">
+        <item name="android:textColor">@color/text_color_subtitle</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Small">
+        <item name="android:textColor">@color/text_color_title</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.SubSmall">
+        <item name="android:textColor">@color/text_color_subtitle</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>

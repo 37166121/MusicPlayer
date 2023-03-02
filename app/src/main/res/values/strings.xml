@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MusicPlayer</string>
+
+    <string name="title_activity_nav">NavActivity</string>
+    <string name="title_discover">发现</string>
+    <string name="title_mine">我的</string>
+    <string name="title_follow">关注</string>
+
+    <string-array name="play_mode">
+        <item>随机播放</item>
+        <item>单曲循环</item>
+        <item>列表循环</item>
+    </string-array>
+</resources>
