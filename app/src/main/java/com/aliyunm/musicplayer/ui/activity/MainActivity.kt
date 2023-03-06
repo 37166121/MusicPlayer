@@ -7,6 +7,7 @@ import com.aliyunm.common.ui.BaseActivity
 import com.aliyunm.musicplayer.R
 import com.aliyunm.musicplayer.databinding.ActivityMainBinding
 import com.aliyunm.musicplayer.popup.MusicListPopup
+import com.aliyunm.musicplayer.popup.PlayerPopup
 import com.aliyunm.musicplayer.ui.fragment.PlayerBottomFragment
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
 import com.google.android.exoplayer2.ExoPlayer
@@ -32,6 +33,50 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
         viewModel.player = ExoPlayer.Builder(this).build()
         viewModel.playerControlView = viewBinding.playerController
         viewModel.musicListPopup = MusicListPopup(this)
+        viewModel.playerPopup = PlayerPopup(this)
+        viewModel.musicItems.apply {
+
+            forEach {
+                viewModel.player.addMediaItem(it.mediaItem)
+            }
+
+            viewModel.player.apply {
+                repeatMode = viewModel.repeatMode
+                prepare()
+            }
+
+            event.observe(this@MainActivity) {
+                if (size == 0) {
+                    viewModel.nowPosition = 0
+                }
+            }
+
+            add.observe(this@MainActivity) {
+                viewModel.player.addMediaItem(it!!.mediaItem)
+            }
+
+            addAll.observe(this@MainActivity) { musicList ->
+                musicList.forEach {
+                    viewModel.player.addMediaItem(it.mediaItem)
+                }
+            }
+
+            remove.observe(this@MainActivity) {
+
+            }
+
+            removeAt.observe(this@MainActivity) { position ->
+                viewModel.player.removeMediaItem(position)
+            }
+
+            removeAll.observe(this@MainActivity) {
+                viewModel.player.clearMediaItems()
+            }
+
+            clear.observe(this@MainActivity) {
+                viewModel.player.clearMediaItems()
+            }
+        }
     }
 
     override fun initView() {

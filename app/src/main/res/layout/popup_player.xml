@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nav_color"
+    android:paddingTop="?attr/actionBarSize"
+    tools:context=".ui.activity.PlayerActivity">
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_close_1"
+        app:tint="@color/white" />
+
+    <com.aliyunm.musicplayer.widget.WidgetVisualizerView
+        android:id="@+id/visualizer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:paddingHorizontal="15dp"
+        android:weightSum="20"
+        app:layout_constraintBottom_toTopOf="@+id/ll_nav">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+
+        <com.aliyunm.musicplayer.widget.WidgetProgressBar
+            android:id="@+id/progress_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="14" />
+
+        <TextView
+            android:id="@+id/tv_count_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:paddingHorizontal="15dp"
+        android:weightSum="5"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_cycle_single"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:src="@drawable/ic_cycle_single"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_previous"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:src="@drawable/ic_previous"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_pause_play"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_pause_circle"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_next"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:src="@drawable/ic_next"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_song_list"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:src="@drawable/ic_song_list"
+            app:tint="@color/white" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

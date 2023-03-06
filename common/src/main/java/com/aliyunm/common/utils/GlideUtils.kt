@@ -10,6 +10,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
 object GlideUtils {
+
+    const val CenterCrop : Int = 0
+    const val CircleCrop : Int = 1
+    const val RoundedCorners : Int = 2
+
     fun setImage(context : Context, path : Any, view : ImageView, type : Int = 0, radian : Int = 4) {
         val options: RequestOptions = when(type) {
             0 -> {

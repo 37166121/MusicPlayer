@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.DiscoverFragment">
 
+    <Button
+        android:id="@+id/reset_music_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重置歌单"/>
+
     <TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"

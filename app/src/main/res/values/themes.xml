@@ -17,6 +17,23 @@
         <item name="android:windowLightNavigationBar">true</item>
 
     </style>
+    <style name="Theme.MusicPlayer.Light" parent="Theme.MusicPlayer">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+    </style>
+
+    <style name="Animation_Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/popup_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/popup_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/popup_exit</item>
+        <item name="android:activityOpenExitAnimation">@anim/popup_enter</item>
+    </style>
+
+    <style name="Player" parent="Theme.MusicPlayer">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation_Activity</item>
+    </style>
 
     <style name="Nav">
         <item name="colorPrimary">@color/nav_color</item>

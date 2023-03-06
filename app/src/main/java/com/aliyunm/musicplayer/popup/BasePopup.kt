@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.activity.ComponentActivity
 import androidx.viewbinding.ViewBinding
+import com.aliyunm.common.utils.AnimationUtils
 
 abstract class BasePopup<VB : ViewBinding> : PopupWindow {
     var viewBinding: VB
@@ -15,6 +16,7 @@ abstract class BasePopup<VB : ViewBinding> : PopupWindow {
     private var mWindow: Window
     private var mActivity: ComponentActivity
     private lateinit var view: View
+    private var isDark : Boolean = true
 
     constructor(activity: ComponentActivity) : super() {
         mContext = activity.baseContext
@@ -26,17 +28,29 @@ abstract class BasePopup<VB : ViewBinding> : PopupWindow {
         initView()
     }
 
-    open fun show() {
-        this.show(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+    open fun show(isDark : Boolean = true) {
+        this.show(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, isDark)
     }
 
-    open fun show(w : Int, h : Int) {
+    open fun show(w : Int, h : Int, isDark : Boolean = true) {
         isOutsideTouchable = true
         isTouchable = true
         isFocusable = true
         width = w
         height = h
-        darkenBackground(0.5f)
+        this.isDark = isDark
+        if (isDark) {
+            AnimationUtils.Build()
+                .setStart(1f)
+                .setEnd(0.5f)
+                .setDuration(200)
+                .setProgressListener(object : AnimationUtils.ProgressListener {
+                    override fun progress(progress: Float) {
+                        darkenBackground(progress)
+                    }
+                })
+                .startAnimator()
+        }
     }
 
     abstract fun initData()
@@ -70,7 +84,18 @@ abstract class BasePopup<VB : ViewBinding> : PopupWindow {
 
     override fun dismiss() {
         super.dismiss()
-        darkenBackground(1f)
+        if (isDark) {
+            AnimationUtils.Build()
+                .setStart(0.5f)
+                .setEnd(1f)
+                .setDuration(200)
+                .setProgressListener(object : AnimationUtils.ProgressListener {
+                    override fun progress(progress: Float) {
+                        darkenBackground(progress)
+                    }
+                })
+                .startAnimator()
+        }
     }
 
     private fun darkenBackground(bgcolor: Float) {

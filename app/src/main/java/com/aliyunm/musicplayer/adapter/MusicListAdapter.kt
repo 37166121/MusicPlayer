@@ -24,7 +24,7 @@ class MusicListAdapter(override val data : LiveArrayList<MusicModel>, private va
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicListViewHolder {
         setContext(parent.context)
         return MusicListViewHolder(ItemMusicListBinding.inflate(LayoutInflater.from(parent.context), parent, false)).apply {
-            setIsRecyclable(false)
+            // setIsRecyclable(false)
         }
     }
 
@@ -37,12 +37,10 @@ class MusicListAdapter(override val data : LiveArrayList<MusicModel>, private va
             data.removeAt(position)
         }
         holder.itemView.setOnClickListener {
-            data[oldPosition].isPlaying = false
-            item.isPlaying = true
+            callback(position)
             notifyItemChanged(oldPosition)
             showPlaying(item.isPlaying, holder.binding.ivMusicPlaying)
             oldPosition = position
-            callback(position)
         }
     }
 

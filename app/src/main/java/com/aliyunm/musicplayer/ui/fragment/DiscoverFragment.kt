@@ -3,15 +3,17 @@ package com.aliyunm.musicplayer.ui.fragment
 import android.os.Bundle
 import com.aliyunm.common.ui.BaseFragment
 import com.aliyunm.musicplayer.databinding.FragmentDiscoverBinding
+import com.aliyunm.musicplayer.model.MusicModel
 import com.aliyunm.musicplayer.viewmodel.DiscoverViewModel
+import com.aliyunm.musicplayer.viewmodel.MusicViewModel
 
-class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, DiscoverViewModel>() {
+class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, MusicViewModel>() {
     override fun setBinding(): FragmentDiscoverBinding {
         return FragmentDiscoverBinding.inflate(layoutInflater)
     }
 
-    override fun setViewModel(): Class<DiscoverViewModel> {
-        return DiscoverViewModel::class.java
+    override fun setViewModel(): Class<MusicViewModel> {
+        return MusicViewModel::class.java
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -19,6 +21,12 @@ class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, DiscoverViewModel
     }
 
     override fun initView() {
-
+        viewBinding.resetMusicList.setOnClickListener {
+            viewModel.musicItems.clear()
+            viewModel.copy_musicItems.forEach {
+                viewModel.musicItems.add(it)
+            }
+            viewModel.nowPosition = viewModel.nowPosition
+        }
     }
 }

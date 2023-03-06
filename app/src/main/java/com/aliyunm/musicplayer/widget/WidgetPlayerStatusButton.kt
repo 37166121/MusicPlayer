@@ -173,7 +173,8 @@ class WidgetPlayerStatusButton : ProgressBar, OnClickListener, BaseView {
         return isPlay
     }
 
-    fun changeIsPlayStatus() {
-        onClick(this)
+    fun switchPlayStatus(playing : Boolean) {
+        isPlay = playing
+        invalidate()
     }
 }

@@ -4,12 +4,16 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import com.aliyunm.musicplayer.model.MusicModel
 
 class WidgetMusicTitleTextView : AppCompatTextView, BaseView {
 
     private val mContext: Context
     private val mAttrs: AttributeSet?
     private val mDefStyleAttr: Int
+
+    private var title : String = ""
+    private lateinit var mMusicModel: MusicModel
 
     constructor(context: Context) : this(context, null)
 
@@ -24,6 +28,26 @@ class WidgetMusicTitleTextView : AppCompatTextView, BaseView {
 
     override fun init() {
 
+    }
+
+    fun setTitle() {
+
+    }
+
+    fun setMusicItem(musicModel: MusicModel) {
+        mMusicModel = musicModel
+    }
+
+    fun setMusicName(): String {
+        return mMusicModel.name
+    }
+
+    fun setSinger(): String {
+        val singer : StringBuffer = StringBuffer()
+        mMusicModel.singer.split(",").forEach {
+            singer.append(it).append("/")
+        }
+        return singer.substring(0, singer.length - 1)
     }
 
     override fun onDraw(canvas: Canvas?) {

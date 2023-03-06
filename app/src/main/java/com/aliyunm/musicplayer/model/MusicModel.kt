@@ -4,7 +4,6 @@ import com.google.android.exoplayer2.MediaItem
 
 data class MusicModel(
     val id : Long = -1,
-    val mediaItem : MediaItem,
     /**
      * 歌名
      */
@@ -12,7 +11,8 @@ data class MusicModel(
     /**
      * 歌曲路径
      */
-    val path : String = "",
+    val path : String,
+    val mediaItem : MediaItem = MediaItem.fromUri(path),
     /**
      * 网络路径或者本地路径
      */
@@ -68,5 +68,9 @@ data class MusicModel(
          * 网络路径
          */
         const val NETWORK = 0x0002
+    }
+
+    fun getSinger() : List<String> {
+        return singer.split(",")
     }
 }

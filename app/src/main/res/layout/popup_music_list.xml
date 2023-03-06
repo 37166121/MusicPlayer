@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginHorizontal="@dimen/page_margins_horizontal"
+        android:layout_marginVertical="15dp"
         android:paddingVertical="@dimen/page_margins_vertical"
         android:paddingHorizontal="@dimen/page_margins_horizontal"
         android:background="@drawable/bg_popup_music_list">
@@ -78,13 +79,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_music_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            tools:listitem="@layout/item_music_list"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_music_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                tools:listitem="@layout/item_music_list"/>
+
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
