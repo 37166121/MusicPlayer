@@ -21,7 +21,7 @@ abstract class CommonApplication : Application(), ViewModelStoreOwner {
     init {
         mApplication = this
         mViewModelStore = ViewModelStore()
-        commonViewModel = ViewModelProvider(this).get(CommonViewModel::class.java)
+        commonViewModel = getViewModel(CommonViewModel::class.java)
     }
 
     override fun getViewModelStore(): ViewModelStore {

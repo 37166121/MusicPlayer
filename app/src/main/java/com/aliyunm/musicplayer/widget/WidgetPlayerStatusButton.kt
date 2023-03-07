@@ -23,14 +23,14 @@ class WidgetPlayerStatusButton : ProgressBar, OnClickListener, BaseView {
     /**
      * true
      */
-    private var isPlay: Boolean = false
+    private var isPlaying: Boolean = false
     private var mWidth = 0
     private var mHeight = 0
     private var mStrokeWidth = 15f
     private var b = 100
     private lateinit var pause: Bitmap
     private lateinit var play: Bitmap
-    private lateinit var clickListener: (Boolean) -> Unit
+    private lateinit var clickListener: () -> Unit
 
     private val bgPaint = Paint().apply {
         strokeCap = Paint.Cap.ROUND
@@ -140,8 +140,7 @@ class WidgetPlayerStatusButton : ProgressBar, OnClickListener, BaseView {
     }
 
     override fun onClick(v: View?) {
-        clickListener(isPlay)
-        isPlay = !isPlay
+        clickListener()
         invalidate()
     }
 
@@ -151,7 +150,7 @@ class WidgetPlayerStatusButton : ProgressBar, OnClickListener, BaseView {
     }
 
     private fun changeStatus() {
-        var bitmap = if (isPlay) {
+        var bitmap = if (isPlaying) {
             // 播放状态 显示暂停按钮
             pause
         } else {
@@ -165,16 +164,16 @@ class WidgetPlayerStatusButton : ProgressBar, OnClickListener, BaseView {
         )
     }
 
-    fun setClickListener(clickListener: (Boolean) -> Unit) {
+    fun setClickListener(clickListener: () -> Unit) {
         this.clickListener = clickListener
     }
 
     fun getIsPlayStatus(): Boolean {
-        return isPlay
+        return isPlaying
     }
 
     fun switchPlayStatus(playing : Boolean) {
-        isPlay = playing
+        isPlaying = playing
         invalidate()
     }
 }

@@ -11,7 +11,7 @@ class LiveArrayList<T> : ArrayList<T> {
     val remove : MutableLiveData<T?> = MutableLiveData()
     val removeAt : MutableLiveData<Int> = MutableLiveData()
     val removeAll : MutableLiveData<Collection<T>> = MutableLiveData()
-    val clear : MutableLiveData<Boolean> = MutableLiveData(false)
+    val clear : MutableLiveData<Boolean> = MutableLiveData()
 
     private var listener : ArrayListItemChangeListener<T>? = null
 

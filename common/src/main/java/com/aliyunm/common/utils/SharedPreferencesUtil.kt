@@ -8,6 +8,8 @@ object SharedPreferencesUtil {
     private lateinit var mSharedPreferences : SharedPreferences
     private lateinit var mEditor : Editor
 
+    const val POSITION = "position"
+
     fun setSharedPreferences(sharedPreferences : SharedPreferences) {
         mSharedPreferences = sharedPreferences
         mEditor = mSharedPreferences.edit()

@@ -1,18 +1,20 @@
 package com.aliyunm.musicplayer.ui.fragment
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
-import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING
 import com.aliyunm.common.ui.BaseFragment
 import com.aliyunm.musicplayer.adapter.PlayerBottomAdapter
 import com.aliyunm.musicplayer.databinding.FragmentPlayerBottomBinding
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ui.PlayerControlView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicViewModel>() {
 
@@ -25,21 +27,32 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        lifecycleScope.launch {
+            progress = getProgress()
+        }
         viewModel.position.observe(this) {
             if (!isThis) {
-                viewBinding.rvMusicList.scrollToPosition(it)
+                viewBinding.rvMusicList.scrollToPosition(viewModel.nowPosition)
             } else {
                 isThis = false
             }
-            viewBinding.rvMusicList.adapter?.notifyItemChanged(it)
+            viewBinding.rvMusicList.adapter?.notifyItemChanged(viewModel.oldPosition)
+            viewBinding.rvMusicList.adapter?.notifyItemChanged(viewModel.nowPosition)
         }
         viewModel.isPlaying.observe(this) {
             if (it) {
-                (viewBinding.rvMusicList.adapter as PlayerBottomAdapter).pause()
-                viewModel.player.pause()
-            } else {
                 (viewBinding.rvMusicList.adapter as PlayerBottomAdapter).resume()
                 viewModel.player.play()
+                lifecycleScope.launch {
+                    progress.start()
+                }
+
+            } else {
+                (viewBinding.rvMusicList.adapter as PlayerBottomAdapter).pause()
+                viewModel.player.pause()
+                lifecycleScope.launch {
+                    progress.await()
+                }
             }
             viewBinding.btnPlayerStatus.switchPlayStatus(it)
         }
@@ -47,10 +60,13 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
 
     var isThis = true
 
+    lateinit var progress : Deferred<Unit>
+
     override fun initView() {
         viewBinding.apply {
             btnPlayerStatus.setClickListener {
-                viewModel.isPlaying.value = it
+                viewModel.isFirst = false
+                viewModel.btn()
             }
             ivMusicList.apply {
                 setOnClickListener {
@@ -70,44 +86,19 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
                             isThis = true
                             val itemView = snapHelper.findSnapView(recyclerView.layoutManager)
                             val position = if (itemView == null) -1 else getChildAdapterPosition(itemView)
-                            if (viewModel.nowPosition != position) {
-                                viewModel.nowPosition = position
-                            }
+                            viewModel.scroll(position)
                         }
+                    }
+
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        viewModel.isFirst = false
                     }
                 })
             }
         }
 
         viewModel.apply {
-            player.addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(playbackState: Int) {
-                    super.onPlaybackStateChanged(playbackState)
-                    when(playbackState) {
-                        Player.STATE_BUFFERING  -> {
-
-                        }
-                        Player.STATE_ENDED      -> {
-
-                        }
-                        Player.STATE_IDLE       -> {
-
-                        }
-                        Player.STATE_READY      -> {
-
-                        }
-                    }
-                }
-
-                override fun onIsPlayingChanged(isPlaying: Boolean) {
-                    super.onIsPlayingChanged(isPlaying)
-                }
-
-                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                    super.onMediaItemTransition(mediaItem, reason)
-                    viewBinding.btnPlayerStatus.progress = 0
-                }
-            })
 
             musicItems.apply {
 
@@ -130,16 +121,17 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
                     viewBinding.rvMusicList.adapter?.notifyItemRangeChanged(position, viewModel.musicItems.size)
                 }
             }
+        }
+    }
 
-            playerControlView.apply {
-                player = viewModel.player
-                post {
-                    setProgressUpdateListener(object : PlayerControlView.ProgressUpdateListener {
-                        override fun onProgressUpdate(position: Long, bufferedPosition: Long) {
-                            viewBinding.btnPlayerStatus.progress = position.toInt()
-                        }
-                    })
+    private suspend fun getProgress(): Deferred<Unit> {
+        return CoroutineScope(Dispatchers.IO).async {
+            while (true) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val progress = ((viewModel.player.currentPosition + 0f) / viewModel.player.duration * 100).toInt()
+                    viewBinding.btnPlayerStatus.progress = progress
                 }
+                delay(1000)
             }
         }
     }

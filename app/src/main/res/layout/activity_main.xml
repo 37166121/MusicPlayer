@@ -47,10 +47,4 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/mobile_navigation" />
 
-    <com.google.android.exoplayer2.ui.PlayerControlView
-        android:id="@+id/player_controller"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

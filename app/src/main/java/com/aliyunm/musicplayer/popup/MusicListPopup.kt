@@ -18,13 +18,10 @@ import com.google.android.exoplayer2.Player
 
 class MusicListPopup(activity: ComponentActivity) : BaseBottomPopup<PopupMusicListBinding>(activity) {
 
-    private lateinit var musicViewModel : MusicViewModel
+    private lateinit var viewModel : MusicViewModel
 
     override fun initData() {
-        musicViewModel = CommonApplication.getApplication().getViewModel(MusicViewModel::class.java)
-        musicViewModel.position.observe(getActivity()) {
-            viewBinding.rvMusicList.adapter?.notifyDataSetChanged()
-        }
+        viewModel = CommonApplication.getApplication().getViewModel(MusicViewModel::class.java)
     }
 
     private fun setTypeIcon(type : Int, view : TextView) {
@@ -52,21 +49,26 @@ class MusicListPopup(activity: ComponentActivity) : BaseBottomPopup<PopupMusicLi
     }
 
     override fun initView() {
+        viewModel.position.observe(getActivity()) {
+            viewBinding.rvMusicList.adapter?.apply {
+                notifyItemChanged(viewModel.oldPosition)
+                notifyItemChanged(viewModel.nowPosition)
+            }
+        }
         viewBinding.apply {
-            tvMusicCount.text = "(${musicViewModel.musicItems.size})"
+            tvMusicCount.text = "(${viewModel.musicItems.size})"
 
             ivClear.setOnClickListener {
-                musicViewModel.musicItems.clear()
-                musicViewModel.player.clearMediaItems()
+                viewModel.musicItems.clear()
+                viewModel.player.clearMediaItems()
                 rvMusicList.adapter?.notifyDataSetChanged()
             }
 
             tvCycle.apply {
-                setTypeIcon(musicViewModel.repeatMode, this)
+                setTypeIcon(viewModel.repeatMode, this)
                 setOnClickListener {
-                    musicViewModel.repeatMode = ++musicViewModel.repeatCount % (Player.REPEAT_MODE_ALL + 1)
-                    musicViewModel.player.repeatMode = musicViewModel.repeatMode
-                    setTypeIcon(musicViewModel.repeatMode, this)
+                    viewModel.repeatMode = ++viewModel.repeatCount % (Player.REPEAT_MODE_ALL + 1)
+                    setTypeIcon(viewModel.repeatMode, this)
                 }
             }
 
@@ -84,16 +86,15 @@ class MusicListPopup(activity: ComponentActivity) : BaseBottomPopup<PopupMusicLi
 
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
+                        viewModel.isFirst = false
                     }
                 })
-                adapter = MusicListAdapter(musicViewModel.musicItems) { playingPosition ->
-                    if (musicViewModel.nowPosition != playingPosition) {
-                        musicViewModel.nowPosition = playingPosition
-                    }
+                adapter = MusicListAdapter(viewModel.musicItems) { position ->
+                    viewModel.scroll(position)
                 }.apply {
-                    musicViewModel.musicItems.apply {
+                    viewModel.musicItems.apply {
                         event.observe(getActivity()) {
-                            tvMusicCount.text = "(${musicViewModel.musicItems.size})"
+                            tvMusicCount.text = "(${viewModel.musicItems.size})"
                             if (size == 0) {
                                 dismiss()
                             } else {
@@ -103,7 +104,7 @@ class MusicListPopup(activity: ComponentActivity) : BaseBottomPopup<PopupMusicLi
 
                         removeAt.observe(getActivity()) { position ->
                             notifyItemRemoved(position)
-                            notifyItemRangeChanged(position, musicViewModel.musicItems.size)
+                            notifyItemRangeChanged(position, viewModel.musicItems.size)
                         }
                     }
                 }

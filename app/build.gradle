@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
     def retrofit2_version = "2.9.0"
     def okhttp3_version = "5.0.0-alpha.9"
     def exoplayer_version = "2.18.3"
+    def room_version = "2.5.0"
 
     implementation project(path: ':common')
 
@@ -68,5 +70,10 @@ dependencies {
     implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: "$retrofit2_version"
 
     implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // To use Kotlin Symbol Processing (KSP)
+    ksp "androidx.room:room-compiler:$room_version"
 
 }

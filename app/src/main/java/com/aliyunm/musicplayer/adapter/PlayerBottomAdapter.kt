@@ -47,22 +47,30 @@ class PlayerBottomAdapter(override val data : ArrayList<MusicModel>, val clickCa
 
     private fun startAnimation(item : MusicModel) {
         binding.apply {
-            operatingAnim = ObjectAnimator.ofFloat(ivMusicCover, "rotation", 0f, 360f).apply {
+            operatingAnim = ObjectAnimator.ofFloat(ivMusicCover, "rotation", 0f, 359f).apply {
                 duration = 15 * 1000
                 repeatCount = -1
                 interpolator = LinearInterpolator()
             }
             if (item.isPlaying) {
                 operatingAnim.start()
+            } else {
+                operatingAnim.cancel()
             }
         }
     }
 
     fun pause() {
-        operatingAnim.pause()
+        if (operatingAnim.isStarted) {
+            operatingAnim.pause()
+        }
     }
 
     fun resume() {
-        operatingAnim.resume()
+        if (operatingAnim.isStarted) {
+            operatingAnim.resume()
+        } else {
+            operatingAnim.start()
+        }
     }
 }

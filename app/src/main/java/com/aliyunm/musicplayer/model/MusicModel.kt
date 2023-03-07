@@ -1,18 +1,21 @@
 package com.aliyunm.musicplayer.model
 
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.android.exoplayer2.MediaItem
 
+@Entity(tableName = "music")
 data class MusicModel(
-    val id : Long = -1,
+    @PrimaryKey val id : Long = -1,
     /**
      * 歌名
      */
-    val name : String = "大话西游",
+    val name : String = "",
     /**
      * 歌曲路径
      */
     val path : String,
-    val mediaItem : MediaItem = MediaItem.fromUri(path),
     /**
      * 网络路径或者本地路径
      */
@@ -48,7 +51,7 @@ data class MusicModel(
     /**
      * 歌手 逗号分割 ,
      */
-    val singer : String = "周星驰",
+    val singer : String = "",
     /**
      * 专辑 逗号分割 ,
      */
@@ -58,6 +61,9 @@ data class MusicModel(
      */
     var isPlaying : Boolean = false
 ) {
+
+    @Ignore val mediaItem : MediaItem = MediaItem.fromUri(path)
+
     object MusicType {
         /**
          * 本地路径
@@ -70,7 +76,7 @@ data class MusicModel(
         const val NETWORK = 0x0002
     }
 
-    fun getSinger() : List<String> {
+    fun getSingerList() : List<String> {
         return singer.split(",")
     }
 }

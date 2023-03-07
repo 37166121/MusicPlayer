@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aliyunm.common.ui.BaseActivity
+import com.aliyunm.common.utils.SharedPreferencesUtil
 import com.aliyunm.musicplayer.R
 import com.aliyunm.musicplayer.databinding.ActivityMainBinding
 import com.aliyunm.musicplayer.popup.MusicListPopup
 import com.aliyunm.musicplayer.popup.PlayerPopup
 import com.aliyunm.musicplayer.ui.fragment.PlayerBottomFragment
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
-import com.google.android.exoplayer2.ExoPlayer
 
 class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
 
@@ -30,20 +30,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
         } else {
             PlayerBottomFragment()
         }
-        viewModel.player = ExoPlayer.Builder(this).build()
-        viewModel.playerControlView = viewBinding.playerController
         viewModel.musicListPopup = MusicListPopup(this)
         viewModel.playerPopup = PlayerPopup(this)
         viewModel.musicItems.apply {
-
-            forEach {
-                viewModel.player.addMediaItem(it.mediaItem)
-            }
-
-            viewModel.player.apply {
-                repeatMode = viewModel.repeatMode
-                prepare()
-            }
 
             event.observe(this@MainActivity) {
                 if (size == 0) {
@@ -77,6 +66,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
                 viewModel.player.clearMediaItems()
             }
         }
+        viewModel.nowPosition = SharedPreferencesUtil.getInt(SharedPreferencesUtil.POSITION, 0)
     }
 
     override fun initView() {
@@ -98,4 +88,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
         super.onSaveInstanceState(outState)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        SharedPreferencesUtil.putInt(SharedPreferencesUtil.POSITION, viewModel.nowPosition)
+    }
 }

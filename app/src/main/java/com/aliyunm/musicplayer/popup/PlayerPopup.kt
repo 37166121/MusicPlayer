@@ -1,6 +1,5 @@
 package com.aliyunm.musicplayer.popup
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
@@ -8,32 +7,40 @@ import com.aliyunm.common.CommonApplication
 import com.aliyunm.common.utils.ScreenUtils.getNavigationBarHeight
 import com.aliyunm.common.utils.ScreenUtils.getScreenHeight
 import com.aliyunm.common.utils.ScreenUtils.getStatusBarHeight
-import com.aliyunm.musicplayer.R
 import com.aliyunm.musicplayer.databinding.PopupPlayerBinding
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
 
 class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBinding>(activity) {
 
-    private lateinit var musicViewModel : MusicViewModel
+    private lateinit var viewModel : MusicViewModel
 
     override fun initData() {
-        musicViewModel = CommonApplication.getApplication().getViewModel(MusicViewModel::class.java)
+        viewModel = CommonApplication.getApplication().getViewModel(MusicViewModel::class.java)
     }
 
     override fun initView() {
         isClippingEnabled = false
         viewBinding.apply {
+
+            ivPrevious.setOnClickListener {
+                viewModel.previous()
+            }
+
+            ivNext.setOnClickListener {
+                viewModel.playerNext(false)
+            }
+
             ivClose.setOnClickListener {
                 dismiss()
             }
 
             ivSongList.setOnClickListener {
-                musicViewModel.musicListPopup.show()
+                viewModel.musicListPopup.show()
             }
         }
         viewBinding.root.apply {
             layoutParams.apply {
-                setPadding(paddingLeft, paddingTop, paddingRight, getNavigationBarHeight(getContext()))
+                setPadding(paddingLeft, paddingTop, paddingRight, getNavigationBarHeight(context))
             }
         }
     }
