@@ -11,15 +11,21 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.util.EventLogger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
 class MusicViewModel : BaseViewModel() {
 
-    val historyPosition : ArrayList<Int> = arrayListOf()
+    val historyPosition: ArrayList<Int> = arrayListOf()
 
     var oldPosition = 0
 
-    var nowPosition : Int by Delegates.observable(-1) { property, oldValue, newValue ->
+    var nowPosition: Int by Delegates.observable(-1) { property, oldValue, newValue ->
         if (!isFirst) {
             if (musicItems.isNotEmpty()) {
                 if (oldValue >= 0) {
@@ -41,10 +47,11 @@ class MusicViewModel : BaseViewModel() {
     }
 
     fun btn() {
+        // nowPosition = nowPosition
         isPlaying.value = !isPlaying.value!!
     }
 
-    fun scroll(newValue : Int) {
+    fun scroll(newValue: Int) {
         if (nowPosition != newValue) {
             nowPosition = newValue
             isPlaying.value = true
@@ -56,12 +63,12 @@ class MusicViewModel : BaseViewModel() {
     /**
      * 点击控制按钮更改播放状态 或 更改歌单改变控制按钮状态
      */
-    var isPlaying : MutableLiveData<Boolean> = MutableLiveData(false)
+    var isPlaying: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /**
      * 通知页面更改UI
      */
-    var position : MutableLiveData<Int> = MutableLiveData()
+    var position: MutableLiveData<Int> = MutableLiveData()
 
     /**
      * 播放列表
@@ -75,7 +82,9 @@ class MusicViewModel : BaseViewModel() {
         MusicModel(path = "${BASEURL}/Hello.mp4", name = "Hello", singer = "Barbara Opsomer", coverPath = "https://p2.music.126.net/gJBIEu6O22yD1nf1NE0Xig==/109951167189052612.jpg")
     ))
 
-    val copy_musicItems : LiveArrayList<MusicModel> = musicItems.clone() as LiveArrayList<MusicModel>
+    val copy_musicItems: LiveArrayList<MusicModel> = musicItems.clone() as LiveArrayList<MusicModel>
+
+    val sessionIdListener: MutableLiveData<Int> = MutableLiveData()
 
     /**
      * 播放器
@@ -86,6 +95,20 @@ class MusicViewModel : BaseViewModel() {
         }
         repeatMode = Player.REPEAT_MODE_OFF
         addListener(object : Player.Listener {
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+                when (playbackState) {
+                    Player.STATE_ENDED -> {
+                        playerNext(true)
+                    }
+
+                    Player.STATE_READY -> {
+                        sessionIdListener.value = audioSessionId
+                    }
+                }
+            }
+
             override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
                 if (reason == 0) {
                     playerNext(true)
@@ -94,13 +117,16 @@ class MusicViewModel : BaseViewModel() {
         })
         addAnalyticsListener(EventLogger())
         prepare()
+        getProgress()
     }
 
     /**
      * 控制媒体是否循环以及如何循环
      */
-    var repeatMode: Int = Player.REPEAT_MODE_OFF
-    var repeatCount: Int = repeatMode
+    var repeatMode: MutableLiveData<Int> = MutableLiveData(Player.REPEAT_MODE_OFF)
+    var repeatCount: Int by Delegates.observable(repeatMode.value ?: Player.REPEAT_MODE_OFF) { property, oldValue, newValue ->
+        repeatMode.value = newValue % (Player.REPEAT_MODE_ALL + 1)
+    }
 
     /**
      * 调整播放速度和音频音调
@@ -110,12 +136,14 @@ class MusicViewModel : BaseViewModel() {
     /**
      * 歌单
      */
-    lateinit var musicListPopup : MusicListPopup
+    lateinit var musicListPopup: MusicListPopup
+
+    var isRecordAudio: Boolean = false
 
     /**
      * 播放界面
      */
-    lateinit var playerPopup : PlayerPopup
+    lateinit var playerPopup: PlayerPopup
 
     /**
      * 指针 记录历史播放记录位置
@@ -134,7 +162,7 @@ class MusicViewModel : BaseViewModel() {
     /**
      * 下一首
      */
-    fun playerNext(isAuto : Boolean) {
+    fun playerNext(isAuto: Boolean) {
         player.pause()
         nextPosition(isAuto)
     }
@@ -142,12 +170,12 @@ class MusicViewModel : BaseViewModel() {
     /**
      * 计算下一首歌position
      */
-    private fun nextPosition(isAuto : Boolean, random : Boolean = false) {
+    private fun nextPosition(isAuto: Boolean, random: Boolean = false) {
         if (isAuto) {
             if (pointer != historyPosition.size) {
                 nowPosition = historyPosition[pointer]
             }
-            nowPosition = when(repeatMode) {
+            nowPosition = when (repeatMode.value) {
                 Player.REPEAT_MODE_OFF -> {
                     // 随机循环
                     (Math.random() * musicItems.size).toInt()
@@ -179,4 +207,16 @@ class MusicViewModel : BaseViewModel() {
         }
     }
 
+    val progressListener : MutableLiveData<Int> = MutableLiveData()
+
+    private fun getProgress() {
+        CoroutineScope(Dispatchers.IO).launch {
+            while (true) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    progressListener.value = player.currentPosition.toInt()
+                }
+                delay(1000)
+            }
+        }
+    }
 }

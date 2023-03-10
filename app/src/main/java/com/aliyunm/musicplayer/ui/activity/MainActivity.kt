@@ -1,11 +1,14 @@
 package com.aliyunm.musicplayer.ui.activity
 
+import android.Manifest
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aliyunm.common.ui.BaseActivity
+import com.aliyunm.common.utils.PermissionUtil
 import com.aliyunm.common.utils.SharedPreferencesUtil
 import com.aliyunm.musicplayer.R
+import com.aliyunm.musicplayer.adapter.PlayerBottomAdapter
 import com.aliyunm.musicplayer.databinding.ActivityMainBinding
 import com.aliyunm.musicplayer.popup.MusicListPopup
 import com.aliyunm.musicplayer.popup.PlayerPopup
@@ -31,7 +34,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
             PlayerBottomFragment()
         }
         viewModel.musicListPopup = MusicListPopup(this)
-        viewModel.playerPopup = PlayerPopup(this)
+
+        viewModel.isPlaying.observe(this) {
+            if (it) {
+                viewModel.player.play()
+            } else {
+                viewModel.player.pause()
+            }
+        }
         viewModel.musicItems.apply {
 
             event.observe(this@MainActivity) {
@@ -67,6 +77,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
             }
         }
         viewModel.nowPosition = SharedPreferencesUtil.getInt(SharedPreferencesUtil.POSITION, 0)
+        PermissionUtil.requestPermission(this, Manifest.permission.RECORD_AUDIO, {
+            // 权限被允许
+            viewModel.isRecordAudio = true
+            viewModel.playerPopup = PlayerPopup(this)
+        }, {
+            // 权限被拒绝
+        })
     }
 
     override fun initView() {

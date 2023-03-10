@@ -33,27 +33,24 @@ abstract class BaseBottomPopup<VB : ViewBinding>(private val activity: Component
                 viewBinding.root.invalidate()
             }
             MotionEvent.ACTION_UP       -> {
-                if (offsetY > viewBinding.root.height / threshold) {
-                    dismiss()
-                } else {
-                    // 回弹动画
-                    rebound()
-                }
+                up()
             }
             MotionEvent.ACTION_CANCEL   -> {
-                if (offsetY > viewBinding.root.height / threshold) {
-                    dismiss()
-                } else {
-                    // 回弹动画
-                    rebound()
-                }
+                up()
             }
         }
         true
     }
-    val nullOnTouchListener : View.OnTouchListener = object : View.OnTouchListener {
-        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-            return false
+
+    private fun up() {
+        if (offsetY == 0) {
+            return
+        }
+        if (offsetY > viewBinding.root.height / threshold) {
+            dismiss()
+        } else {
+            // 回弹动画
+            rebound()
         }
     }
 
@@ -80,6 +77,7 @@ abstract class BaseBottomPopup<VB : ViewBinding>(private val activity: Component
                 viewBinding.root.clearAnimation()
                 viewBinding.root.y = 0f
                 viewBinding.root.invalidate()
+                offsetY = 0
             }
 
             override fun onAnimationRepeat(animation: Animation?) {

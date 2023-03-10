@@ -1,4 +1,4 @@
-package com.example.localidentification.utils
+package com.aliyunm.common.utils
 
 import android.content.Context
 import android.content.Intent
@@ -23,12 +23,22 @@ object PermissionUtil {
         return false
     }
 
+    fun checkSelfPermission(context : Context, permission : String, callback : (Boolean) -> Unit = {}) {
+        val p = ActivityCompat.checkSelfPermission(context, permission)
+        if (p == PackageManager.PERMISSION_GRANTED) {
+            callback(true)
+        } else if (p == PackageManager.PERMISSION_DENIED) {
+            callback(false)
+        }
+    }
+
     /**
      * 注册权限
      */
     fun requestPermission(fragment: Fragment, name : String, isGranted : () -> Unit = {}, denied : () -> Unit = {}) {
         requestPermission(fragment.requireActivity(), name, isGranted, denied)
     }
+
     /**
      * 注册权限
      */
@@ -56,7 +66,7 @@ object PermissionUtil {
     /**
      * 注册权限组
      */
-    fun requestPermissions(activity: FragmentActivity, names : Array<String>, PERMISSION_CODE : Int = this.PERMISSION_CODE, isGranted : () -> Unit = {}, denied : () -> Unit = {}) {
+    fun requestPermissions(activity: FragmentActivity, names : Array<String>, PERMISSION_CODE : Int = PermissionUtil.PERMISSION_CODE, isGranted : () -> Unit = {}, denied : () -> Unit = {}) {
         var granted = true
         names.forEach {
             granted = granted && ActivityCompat.checkSelfPermission(activity, it) == PackageManager.PERMISSION_GRANTED
@@ -70,16 +80,10 @@ object PermissionUtil {
         }
     }
 
-    /**
-     * 注册必须进入设置页面的权限
-     */
     fun requestSettingPermissions(fragment: Fragment, action : String, PERMISSION_CODE : Int) {
         requestSettingPermissions(fragment.requireActivity(), action, PERMISSION_CODE)
     }
 
-    /**
-     * 注册必须进入设置页面的权限
-     */
     fun requestSettingPermissions(activity: FragmentActivity, action : String, PERMISSION_CODE : Int) {
         val intent = Intent()
         intent.action = action

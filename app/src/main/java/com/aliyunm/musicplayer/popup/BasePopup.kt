@@ -10,18 +10,21 @@ import androidx.activity.ComponentActivity
 import androidx.viewbinding.ViewBinding
 import com.aliyunm.common.utils.AnimationUtils
 
-abstract class BasePopup<VB : ViewBinding> : PopupWindow {
+abstract class BasePopup<VB : ViewBinding>(activity: ComponentActivity) : PopupWindow() {
     var viewBinding: VB
     private var mContext: Context
     private var mWindow: Window
-    private var mActivity: ComponentActivity
+    private var mActivity: ComponentActivity = activity
     private lateinit var view: View
     private var isDark : Boolean = true
 
-    constructor(activity: ComponentActivity) : super() {
+    init {
+        isClippingEnabled = false
+        isOutsideTouchable = true
+        isTouchable = true
+        isFocusable = true
         mContext = activity.baseContext
         mWindow = activity.window
-        mActivity = activity
         viewBinding = getBinding()
         contentView = getView()
         initData()
@@ -33,9 +36,6 @@ abstract class BasePopup<VB : ViewBinding> : PopupWindow {
     }
 
     open fun show(w : Int, h : Int, isDark : Boolean = true) {
-        isOutsideTouchable = true
-        isTouchable = true
-        isFocusable = true
         width = w
         height = h
         this.isDark = isDark
@@ -75,7 +75,7 @@ abstract class BasePopup<VB : ViewBinding> : PopupWindow {
 
     }
 
-    fun getView(): View {
+    private fun getView(): View {
         if (!this::view.isInitialized) {
             view = viewBinding.root
         }

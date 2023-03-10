@@ -4,9 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
-import android.os.Build
+import android.util.DisplayMetrics
+import android.view.View
 import android.view.Window
-
+import android.view.WindowManager
 
 object ScreenUtils {
 
@@ -14,23 +15,31 @@ object ScreenUtils {
      * 全屏
      */
     fun fullScreen(window : Window) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
-            // 内容延申到状态栏和导航栏
-            window.apply {
-                setDecorFitsSystemWindows(false)
-                statusBarColor = Color.TRANSPARENT
-                navigationBarColor = Color.TRANSPARENT
-            }
-        } else {
-            // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
-            // window.decorView.systemUiVisibility = (
-            //         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            //         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            //         or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            //         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            //         or View.SYSTEM_UI_FLAG_FULLSCREEN
-            //         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = Color.TRANSPARENT
+            navigationBarColor = Color.TRANSPARENT
         }
+
+        // if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
+        //     // 内容延申到状态栏和导航栏
+        //     window.apply {
+        //         setDecorFitsSystemWindows(false)
+        //         statusBarColor = Color.TRANSPARENT
+        //         navigationBarColor = Color.TRANSPARENT
+        //     }
+        // } else {
+        //     window.apply {
+        //         clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        //         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        //         addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        //         statusBarColor = Color.TRANSPARENT
+        //         navigationBarColor = Color.TRANSPARENT
+        //     }
+        // }
     }
 
     /**
@@ -49,7 +58,18 @@ object ScreenUtils {
      * 获取屏幕高度
      */
     fun getScreenHeight(activity: Activity): Int {
-        return activity.windowManager.defaultDisplay.height
+        val dm = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getRealMetrics(dm)
+        return dm.heightPixels
+    }
+
+    /**
+     * 获取屏幕高度
+     */
+    fun getScreenWidth(activity: Activity): Int {
+        val dm = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(dm)
+        return dm.widthPixels
     }
 
     /**

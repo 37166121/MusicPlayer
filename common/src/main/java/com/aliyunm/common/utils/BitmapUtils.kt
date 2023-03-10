@@ -1,12 +1,18 @@
 package com.aliyunm.common.utils
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
-
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
-
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.view.View
+import com.aliyunm.common.utils.ScreenUtils.getScreenHeight
+import com.aliyunm.common.utils.ScreenUtils.getScreenWidth
+import com.google.android.renderscript.Toolkit
 
 object BitmapUtils {
     /**
@@ -50,5 +56,32 @@ object BitmapUtils {
         matrix.postScale(scaleWidth, scaleHeight)
         // 得到新的图片
         return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true)
+    }
+
+    fun createImage(bitmap: Bitmap, activity: Activity): Bitmap {
+        // 取得当前屏幕的长宽
+        val screenWidth: Int = getScreenHeight(activity)
+        val screenHeight: Int = getScreenWidth(activity)
+        return zoomImg(bitmap, screenWidth, screenHeight)
+    }
+
+    // 图片缩放比例(即模糊度)
+    private const val BITMAP_SCALE = 0.4f
+
+    fun blur(image: Bitmap, blurRadius: Float): Bitmap {
+        return Toolkit.blur(image, radius = blurRadius.toInt())
+    }
+
+    /**
+     * @param view          需要模糊的View
+     * @param blurRadius    模糊程度
+     * @return              模糊处理后的Bitmap
+     */
+    fun blur(image: Bitmap, view : View, blurRadius: Float) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            view.setRenderEffect(RenderEffect.createBlurEffect(blurRadius, blurRadius, Shader.TileMode.REPEAT))
+        } else {
+            blur(image, blurRadius)
+        }
     }
 }

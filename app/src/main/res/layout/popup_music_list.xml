@@ -74,6 +74,14 @@
                     android:src="@drawable/ic_clear"
                     app:tint="@color/text_color" />
 
+                <ImageView
+                    android:id="@+id/iv_edit"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="11dp"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/text_color" />
+
 
             </LinearLayout>
 

@@ -3,9 +3,9 @@ package com.aliyunm.musicplayer.widget
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.view.View
+import android.widget.ProgressBar
 
-class WidgetProgressBar : View, BaseView {
+class WidgetProgressBar : ProgressBar, BaseView {
 
     private val mContext: Context
     private val mAttrs: AttributeSet?

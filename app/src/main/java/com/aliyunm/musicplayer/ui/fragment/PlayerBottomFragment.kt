@@ -27,9 +27,6 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        lifecycleScope.launch {
-            progress = getProgress()
-        }
         viewModel.position.observe(this) {
             if (!isThis) {
                 viewBinding.rvMusicList.scrollToPosition(viewModel.nowPosition)
@@ -39,28 +36,21 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
             viewBinding.rvMusicList.adapter?.notifyItemChanged(viewModel.oldPosition)
             viewBinding.rvMusicList.adapter?.notifyItemChanged(viewModel.nowPosition)
         }
+        viewModel.progressListener.observe(this) {
+            val progress = ((((it + 0f) / viewModel.player.duration) * 100)).toInt()
+            viewBinding.btnPlayerStatus.progress = progress
+        }
         viewModel.isPlaying.observe(this) {
             if (it) {
                 (viewBinding.rvMusicList.adapter as PlayerBottomAdapter).resume()
-                viewModel.player.play()
-                lifecycleScope.launch {
-                    progress.start()
-                }
-
             } else {
                 (viewBinding.rvMusicList.adapter as PlayerBottomAdapter).pause()
-                viewModel.player.pause()
-                lifecycleScope.launch {
-                    progress.await()
-                }
             }
             viewBinding.btnPlayerStatus.switchPlayStatus(it)
         }
     }
 
     var isThis = true
-
-    lateinit var progress : Deferred<Unit>
 
     override fun initView() {
         viewBinding.apply {
@@ -77,7 +67,9 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
                 val snapHelper = PagerSnapHelper()
                 snapHelper.attachToRecyclerView(this)
                 adapter = PlayerBottomAdapter(viewModel.musicItems) {
-                    viewModel.playerPopup.show()
+                    if (viewModel.isRecordAudio) {
+                        viewModel.playerPopup.show()
+                    }
                 }
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -120,18 +112,6 @@ class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicView
                     viewBinding.rvMusicList.adapter?.notifyItemRemoved(position)
                     viewBinding.rvMusicList.adapter?.notifyItemRangeChanged(position, viewModel.musicItems.size)
                 }
-            }
-        }
-    }
-
-    private suspend fun getProgress(): Deferred<Unit> {
-        return CoroutineScope(Dispatchers.IO).async {
-            while (true) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    val progress = ((viewModel.player.currentPosition + 0f) / viewModel.player.duration * 100).toInt()
-                    viewBinding.btnPlayerStatus.progress = progress
-                }
-                delay(1000)
             }
         }
     }

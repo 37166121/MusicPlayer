@@ -4,12 +4,9 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import com.aliyunm.common.setImage
 import com.aliyunm.common.utils.GlideUtils
-import com.aliyunm.musicplayer.R
 import com.aliyunm.musicplayer.databinding.ItemMusicPlayerBottomBinding
 import com.aliyunm.musicplayer.model.MusicModel
 

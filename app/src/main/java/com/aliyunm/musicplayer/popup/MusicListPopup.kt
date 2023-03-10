@@ -49,6 +49,9 @@ class MusicListPopup(activity: ComponentActivity) : BaseBottomPopup<PopupMusicLi
     }
 
     override fun initView() {
+        viewModel.repeatMode.observe(getActivity()) {
+            setTypeIcon(it, viewBinding.tvCycle)
+        }
         viewModel.position.observe(getActivity()) {
             viewBinding.rvMusicList.adapter?.apply {
                 notifyItemChanged(viewModel.oldPosition)
@@ -65,10 +68,9 @@ class MusicListPopup(activity: ComponentActivity) : BaseBottomPopup<PopupMusicLi
             }
 
             tvCycle.apply {
-                setTypeIcon(viewModel.repeatMode, this)
+                setTypeIcon(viewModel.repeatMode.value!!, viewBinding.tvCycle)
                 setOnClickListener {
-                    viewModel.repeatMode = ++viewModel.repeatCount % (Player.REPEAT_MODE_ALL + 1)
-                    setTypeIcon(viewModel.repeatMode, this)
+                    ++viewModel.repeatCount
                 }
             }
 

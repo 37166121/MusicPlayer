@@ -6,10 +6,12 @@ plugins {
 
 android {
     namespace 'com.aliyunm.musicplayer'
+    compileSdkPreview "UpsideDownCake"
     compileSdk 33
 
     defaultConfig {
         applicationId "com.aliyunm.musicplayer"
+        targetSdkPreview "UpsideDownCake"
         minSdk 26
         targetSdk 33
         versionCode 1

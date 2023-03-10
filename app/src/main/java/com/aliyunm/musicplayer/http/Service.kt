@@ -10,8 +10,9 @@ import kotlinx.coroutines.launch
 object Service {
     fun getImage(path : String, callback : (Bitmap) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            val s = API.getImage(path)
-            val bitmap : Bitmap = BitmapFactory.decodeByteArray(s.bytes(), 0, s.bytes().size)
+            val responseBody = API.getImage(path)
+            val bytes = responseBody.bytes()
+            val bitmap : Bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
             callback(bitmap)
         }
     }
