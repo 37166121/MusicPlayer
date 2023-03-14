@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.MediaItem
 
 @Entity(tableName = "music")
 data class MusicModel(
-    @PrimaryKey val id : Long = -1,
+    @PrimaryKey val id : String = "",
     /**
      * 歌名
      */
@@ -55,12 +55,28 @@ data class MusicModel(
     /**
      * 专辑 逗号分割 ,
      */
-    val album : String = "",
-    /**
-     * 专辑 逗号分割 ,
-     */
-    var isPlaying : Boolean = false
-) {
+    var isPlaying : Boolean = false,
+) : BaseModel() {
+    @Ignore val album : AlbumModel = AlbumModel()
+    var alg : String = ""
+    @Ignore var artists : ArrayList<ArtistModel> = arrayListOf()
+    var coverImgUrl : String = ""
+    var dlLevel : String = ""
+    var downloadFlag : Boolean = false
+    var duration : Int = -1
+    var liked : Boolean = false
+    var maxBrLevel : String = ""
+    var payDownloadFlag : Boolean = false
+    var payPlayFlag : Boolean = false
+    var plLevel : String = ""
+    var playFlag : Boolean = false
+    var privateCloudSong : Boolean = false
+    var songMaxBr : Int = -1
+    var songTag : String = ""
+    var userMaxBr : Int = -1
+    var vipFlag : Boolean = false
+    var vipPlayFlag : Boolean = false
+    var visible : Boolean = false
 
     @Ignore val mediaItem : MediaItem = MediaItem.fromUri(path)
 

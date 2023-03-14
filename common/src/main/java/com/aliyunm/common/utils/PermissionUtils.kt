@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
-object PermissionUtil {
+object PermissionUtils {
 
     const val PERMISSION_CODE = 0x2002
 
@@ -66,7 +66,7 @@ object PermissionUtil {
     /**
      * 注册权限组
      */
-    fun requestPermissions(activity: FragmentActivity, names : Array<String>, PERMISSION_CODE : Int = PermissionUtil.PERMISSION_CODE, isGranted : () -> Unit = {}, denied : () -> Unit = {}) {
+    fun requestPermissions(activity: FragmentActivity, names : Array<String>, PERMISSION_CODE : Int = PermissionUtils.PERMISSION_CODE, isGranted : () -> Unit = {}, denied : () -> Unit = {}) {
         var granted = true
         names.forEach {
             granted = granted && ActivityCompat.checkSelfPermission(activity, it) == PackageManager.PERMISSION_GRANTED

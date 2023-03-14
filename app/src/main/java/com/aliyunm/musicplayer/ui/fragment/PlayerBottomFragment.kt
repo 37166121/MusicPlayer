@@ -1,7 +1,6 @@
 package com.aliyunm.musicplayer.ui.fragment
 
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
@@ -9,12 +8,6 @@ import com.aliyunm.common.ui.BaseFragment
 import com.aliyunm.musicplayer.adapter.PlayerBottomAdapter
 import com.aliyunm.musicplayer.databinding.FragmentPlayerBottomBinding
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class PlayerBottomFragment : BaseFragment<FragmentPlayerBottomBinding, MusicViewModel>() {
 

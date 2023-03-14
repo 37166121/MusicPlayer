@@ -1,19 +1,17 @@
 package com.aliyunm.musicplayer.popup
 
-import android.graphics.Rect
-import android.graphics.drawable.Drawable
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.aliyunm.common.CommonApplication
 import com.aliyunm.common.setBlurTransformation
 import com.aliyunm.common.setImage
-import com.aliyunm.common.utils.DisplayUtils
+import com.aliyunm.common.utils.GlideUtils
 import com.aliyunm.common.utils.ScreenUtils.getNavigationBarHeight
 import com.aliyunm.common.utils.ScreenUtils.getScreenHeight
-import com.aliyunm.common.utils.ScreenUtils.getStatusBarHeight
 import com.aliyunm.musicplayer.R
 import com.aliyunm.musicplayer.databinding.PopupPlayerBinding
 import com.aliyunm.musicplayer.http.Service
@@ -26,16 +24,25 @@ import kotlinx.coroutines.launch
 class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBinding>(activity) {
 
     private lateinit var viewModel : MusicViewModel
+    private lateinit var operatingAnim: ObjectAnimator
 
     override fun initData() {
         viewModel = CommonApplication.getApplication().getViewModel(MusicViewModel::class.java)
         viewBinding.visualizerView.setVisualizer(viewModel.player.audioSessionId)
         viewModel.position.observe(getActivity()) {
             setBackground()
+            operatingAnim.cancel()
+            operatingAnim.start()
         }
         viewModel.progressListener.observe(getActivity()) {
             viewBinding.tvTime.text = time(it.toLong())
             viewBinding.tvCountTime.text = time(viewModel.player.duration)
+        }
+
+        operatingAnim = ObjectAnimator.ofFloat(viewBinding.ivMusicCoverCenter, "rotation", 0f, 359f).apply {
+            duration = 15 * 1000
+            repeatCount = -1
+            interpolator = LinearInterpolator()
         }
     }
 
@@ -63,8 +70,10 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
         }
         viewModel.isPlaying.observe(getActivity()) {
             val drawable : Int = if (it) {
+                resume()
                 R.drawable.ic_pause_circle
             } else {
+                pause()
                 R.drawable.ic_play_circle
             }
             viewBinding.ivPausePlay.setImageResource(drawable)
@@ -127,10 +136,16 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
     }
 
     private fun setBackground() {
-        Service.getImage(viewModel.musicItems[viewModel.nowPosition].coverPath) {
-            CoroutineScope(Dispatchers.Main).launch {
-                viewBinding.visualizerView.setMusicCover(it)
-                viewBinding.ivMusicCover.setBlurTransformation(it, 170f)
+        CoroutineScope(Dispatchers.Main).launch {
+            val bitmap = Service.getImage(viewModel.musicItems[viewModel.nowPosition].coverPath)
+            viewBinding.visualizerView.setMusicCover(bitmap)
+            viewBinding.ivMusicCover.setBlurTransformation(bitmap, 170f)
+            viewBinding.ivMusicCoverCenter.apply {
+                layoutParams.apply {
+                    width = viewBinding.visualizerView.getR().toInt()
+                    height = viewBinding.visualizerView.getR().toInt()
+                }
+                setImage(bitmap, GlideUtils.CircleCrop, 999)
             }
         }
     }
@@ -138,5 +153,19 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
     override fun dismiss() {
         super.dismiss()
         viewBinding.visualizerView.setVisualizerEnabled(false)
+    }
+
+    private fun pause() {
+        if (operatingAnim.isStarted) {
+            operatingAnim.pause()
+        }
+    }
+
+    private fun resume() {
+        if (operatingAnim.isStarted) {
+            operatingAnim.resume()
+        } else {
+            operatingAnim.start()
+        }
     }
 }

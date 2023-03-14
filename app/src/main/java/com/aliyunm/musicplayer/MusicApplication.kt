@@ -2,7 +2,7 @@ package com.aliyunm.musicplayer
 
 import androidx.room.Room
 import com.aliyunm.common.CommonApplication
-import com.aliyunm.common.utils.SharedPreferencesUtil
+import com.aliyunm.common.utils.SharedPreferencesUtils
 import com.aliyunm.musicplayer.room.ApplicationDatabase
 import com.aliyunm.musicplayer.viewmodel.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class MusicApplication : CommonApplication() {
     override fun onCreate() {
         super.onCreate()
-        SharedPreferencesUtil.setSharedPreferences(getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE))
+        SharedPreferencesUtils.setSharedPreferences(getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE))
         CoroutineScope(Dispatchers.IO).launch {
             getViewModel(BaseViewModel::class.java).apply {
                 db = Room.databaseBuilder(

@@ -23,6 +23,11 @@ class MusicViewModel : BaseViewModel() {
 
     val historyPosition: ArrayList<Int> = arrayListOf()
 
+    /**
+     * 通知页面更改UI
+     */
+    var position: MutableLiveData<Int> = MutableLiveData()
+
     var oldPosition = 0
 
     var nowPosition: Int by Delegates.observable(-1) { property, oldValue, newValue ->
@@ -34,14 +39,16 @@ class MusicViewModel : BaseViewModel() {
                 musicItems[newValue].isPlaying = true
                 player.seekTo(newValue, 0)
                 player.play()
+                isPlaying.value = true
             }
             position.value = newValue
             oldPosition = newValue
-            if (pointer == historyPosition.size) {
-                if (oldValue != newValue) {
-                    pointer++
-                    historyPosition.add(newValue)
-                }
+            if (pointer == 0 && oldValue != newValue) {
+                historyPosition.add(0, newValue)
+            }
+            if (pointer == historyPosition.size && oldValue != newValue) {
+                pointer++
+                historyPosition.add(newValue)
             }
         }
     }
@@ -66,21 +73,9 @@ class MusicViewModel : BaseViewModel() {
     var isPlaying: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /**
-     * 通知页面更改UI
-     */
-    var position: MutableLiveData<Int> = MutableLiveData()
-
-    /**
      * 播放列表
      */
-    val musicItems : LiveArrayList<MusicModel> = LiveArrayList(arrayListOf(
-        MusicModel(path = "${BASEURL}/Man On The Moon.mp4", name = "Man on the Moon", singer = "Alan Walker,Benjamin Ingrosso", coverPath = "https://p1.music.126.net/_lXJ8hBLVaRNipEQ-J6ULQ==/109951166633315099.jpg"),
-        MusicModel(path = "${BASEURL}/Headlights.mp4", name = "Headlights", singer = "Alok,Alan Walker,KIDDO", coverPath = "https://p1.music.126.net/XPDYL0mXgEik54BThDVa9g==/109951167054187749.jpg"),
-        MusicModel(path = "${BASEURL}/One Life.mp4", name = "One Life", singer = "Mike Perry", coverPath = "http://p1.music.126.net/6O678esjRmrE2XOFo4FcwQ==/109951164389106666.jpg"),
-        MusicModel(path = "${BASEURL}/Cyberpunk 2077.mp3", name = "Cyberpunk 2077", singer = "老兵", coverPath = "http://192.168.1.2:8800/Cyberpunk 2077.png"),
-        MusicModel(path = "${BASEURL}/test.mp3", name = "test", singer = "test", coverPath = "http://192.168.1.2:8800/Cyberpunk 2077.png"),
-        MusicModel(path = "${BASEURL}/Hello.mp4", name = "Hello", singer = "Barbara Opsomer", coverPath = "https://p2.music.126.net/gJBIEu6O22yD1nf1NE0Xig==/109951167189052612.jpg")
-    ))
+    val musicItems : LiveArrayList<MusicModel> = LiveArrayList(arrayListOf())
 
     val copy_musicItems: LiveArrayList<MusicModel> = musicItems.clone() as LiveArrayList<MusicModel>
 
@@ -95,7 +90,6 @@ class MusicViewModel : BaseViewModel() {
         }
         repeatMode = Player.REPEAT_MODE_OFF
         addListener(object : Player.Listener {
-
             override fun onPlaybackStateChanged(playbackState: Int) {
                 super.onPlaybackStateChanged(playbackState)
                 when (playbackState) {
@@ -155,6 +149,9 @@ class MusicViewModel : BaseViewModel() {
      */
     fun previous() {
         pointer--
+        if (pointer < 0) {
+            pointer = 0
+        }
         player.pause()
         nextPosition(false)
     }
@@ -173,7 +170,7 @@ class MusicViewModel : BaseViewModel() {
     private fun nextPosition(isAuto: Boolean, random: Boolean = false) {
         if (isAuto) {
             if (pointer != historyPosition.size) {
-                nowPosition = historyPosition[pointer]
+                nowPosition = historyPosition[pointer++]
             }
             nowPosition = when (repeatMode.value) {
                 Player.REPEAT_MODE_OFF -> {
@@ -183,7 +180,7 @@ class MusicViewModel : BaseViewModel() {
                 Player.REPEAT_MODE_ONE -> {
                     // 单曲循环
                     if (random) {
-                        // 列表循环 手动下一首时切歌
+                        // 单曲循环 手动下一首时切歌
                         (nowPosition + 1) % musicItems.size
                     } else {
                         nowPosition
@@ -199,10 +196,10 @@ class MusicViewModel : BaseViewModel() {
                 }
             }
         } else {
-            if (pointer == historyPosition.size) {
+            if (pointer == 0 || pointer == historyPosition.size) {
                 nextPosition(true, true)
             } else {
-                nowPosition = historyPosition[pointer]
+                nowPosition = historyPosition[pointer - 1]
             }
         }
     }

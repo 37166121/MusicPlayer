@@ -5,10 +5,9 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aliyunm.common.ui.BaseActivity
-import com.aliyunm.common.utils.PermissionUtil
-import com.aliyunm.common.utils.SharedPreferencesUtil
+import com.aliyunm.common.utils.PermissionUtils
+import com.aliyunm.common.utils.SharedPreferencesUtils
 import com.aliyunm.musicplayer.R
-import com.aliyunm.musicplayer.adapter.PlayerBottomAdapter
 import com.aliyunm.musicplayer.databinding.ActivityMainBinding
 import com.aliyunm.musicplayer.popup.MusicListPopup
 import com.aliyunm.musicplayer.popup.PlayerPopup
@@ -76,8 +75,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
                 viewModel.player.clearMediaItems()
             }
         }
-        viewModel.nowPosition = SharedPreferencesUtil.getInt(SharedPreferencesUtil.POSITION, 0)
-        PermissionUtil.requestPermission(this, Manifest.permission.RECORD_AUDIO, {
+        viewModel.nowPosition = SharedPreferencesUtils.getInt(SharedPreferencesUtils.POSITION, 0)
+        PermissionUtils.requestPermission(this, Manifest.permission.RECORD_AUDIO, {
             // 权限被允许
             viewModel.isRecordAudio = true
             viewModel.playerPopup = PlayerPopup(this)
@@ -107,6 +106,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        SharedPreferencesUtil.putInt(SharedPreferencesUtil.POSITION, viewModel.nowPosition)
+        viewModel.player.release()
+        SharedPreferencesUtils.putInt(SharedPreferencesUtils.POSITION, viewModel.nowPosition)
     }
 }

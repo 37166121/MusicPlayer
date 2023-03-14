@@ -2,6 +2,7 @@ package com.aliyunm.musicplayer.http
 
 import com.aliyunm.musicplayer.BuildConfig
 import com.aliyunm.musicplayer.http.Path.BASEURL
+import com.aliyunm.musicplayer.http.Path.NET_EASE_BASEURL
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
@@ -23,6 +24,15 @@ object Config {
         val client = getOkHttpClient()
         Retrofit.Builder()
             .baseUrl(BASEURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build().create(Api::class.java)
+    }
+
+    val NET_EASE_API: Api by lazy {
+        val client = getOkHttpClient()
+        Retrofit.Builder()
+            .baseUrl(NET_EASE_BASEURL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build().create(Api::class.java)

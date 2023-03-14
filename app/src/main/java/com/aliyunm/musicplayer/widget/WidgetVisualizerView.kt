@@ -9,10 +9,10 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
-import android.graphics.drawable.BitmapDrawable
 import android.media.audiofx.Visualizer
 import android.util.AttributeSet
 import android.view.View
+import androidx.palette.graphics.Palette
 import com.aliyunm.common.utils.BitmapUtils
 import com.aliyunm.musicplayer.widget.WidgetVisualizerView.Type.SATELLITE
 import com.aliyunm.musicplayer.widget.WidgetVisualizerView.Type.VERTICAL
@@ -40,7 +40,7 @@ class WidgetVisualizerView : View, BaseView {
     private var isPlaying: Boolean = false
 
     /**
-     * 时域数据
+     * 频域数据
      */
     private var model : FloatArray = floatArrayOf()
 
@@ -59,10 +59,14 @@ class WidgetVisualizerView : View, BaseView {
      */
     private var mType : Int = SATELLITE
 
+    private val multiple = 5
+
+    private var takeCount = 12
+
     /**
      * 线条总数
      */
-    private var mWireCount : Int = 36
+    private var mWireCount : Int = takeCount * multiple
 
     /**
      * 竖线宽度
@@ -105,7 +109,7 @@ class WidgetVisualizerView : View, BaseView {
     private var r = -1f
 
     /**
-     * 时域图形状
+     * 频域图形状
      */
     object Type {
 
@@ -155,7 +159,10 @@ class WidgetVisualizerView : View, BaseView {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (this::mMusicCover.isInitialized) {
-            drawCover(mMusicCover, canvas)
+            // drawCover(mMusicCover, canvas)
+            getVibrantColor(mMusicCover).apply {
+                paint.color = this
+            }
         }
 
         // val path : Path = Path()
@@ -177,7 +184,6 @@ class WidgetVisualizerView : View, BaseView {
         // test()
 
         getCountWidth()
-        smooth()
         translate(canvas)
         drawS(canvas)
     }
@@ -203,23 +209,23 @@ class WidgetVisualizerView : View, BaseView {
                 WAVE        -> {
                     // 画圆弧
                 }
-                VERTICAL    -> {
-                    // 画柱状
-                    canvas.drawLine(x, 0f, x, -it, paint)
-                    x += mSpacing * 2
-                }
+                // VERTICAL    -> {
+                //     // 画柱状
+                //     canvas.drawLine(x, 0f, x, -it, paint)
+                //     x += mSpacing * 2
+                // }
                 SATELLITE   -> {
                     // 画卫星柱状
                     val angle = 360 / mWireCount
-                    val r = getR() / 3
+                    val r = getR() / 1.8
                     val i = index * angle
-                    val x0 = r * cos((PI / 180 * i) - (PI / 2))
-                    val x1 = x0 + (r + it / 4) * cos((PI / 180 * i) - (PI / 2))
-                    val y0 = r * sin((PI / 180 * i) - (PI / 2))
-                    val y1 = y0 + (r + it / 4) * sin((PI / 180 * i) - (PI / 2))
-                    canvas.drawLine(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), paint.apply {
-                        color = Color.WHITE
-                    })
+                    val s = 180
+                    val d = PI / 2
+                    val x0 = r * cos((PI / s * i) - d)
+                    val x1 = x0 + (it / 2) * cos((PI / s * i) - d)
+                    val y0 = r * sin((PI / s * i) - d)
+                    val y1 = y0 + (it / 2) * sin((PI / s * i) - d)
+                    canvas.drawLine(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), paint)
                 }
             }
         }
@@ -232,8 +238,10 @@ class WidgetVisualizerView : View, BaseView {
             style = Paint.Style.STROKE
         }
         var bitmap = getCircleBitmap(musicCover)
-        bitmap = BitmapUtils.zoomImg(bitmap, (b / 3).toInt(), (b / 3).toInt())
-        canvas.drawBitmap(bitmap, getLeftSpaceBitmap(bitmap) + 0f,getTopSpaceBitmap(bitmap) + 0f, paint)
+        bitmap = BitmapUtils.zoomImg(bitmap, (b / 2).toInt(), (b / 2).toInt())
+        canvas.drawBitmap(bitmap, getLeftSpaceBitmap(bitmap) + 0f,getTopSpaceBitmap(bitmap) + 0f, paint.apply {
+            color = Color.BLACK
+        })
     }
 
     private fun getCircleBitmap(musicCover : Bitmap): Bitmap {
@@ -270,29 +278,6 @@ class WidgetVisualizerView : View, BaseView {
     }
 
     /**
-     * 平滑
-     */
-    private fun smooth() {
-        if (modelAvg.isNotEmpty()) {
-            val max = modelAvg.sortedDescending()[0]
-            val r = getR()
-            modelAvg.clone().apply {
-                forEachIndexed { index, it ->
-                    val x = when {
-                        it < max / 20   -> { 6 }
-                        it < max / 15   -> { 5 }
-                        it < max / 10   -> { 4 }
-                        it < max / 7    -> { 3 }
-                        it < max / 5    -> { 2 }
-                        else            -> { 1 }
-                    }
-                    modelAvg[index] = it * x / max * r
-                }
-            }
-        }
-    }
-
-    /**
      * x开始位置 宽度 - 可用半径
      */
     private fun getStartX(): Float {
@@ -302,7 +287,7 @@ class WidgetVisualizerView : View, BaseView {
     /**
      * 获取半径
      */
-    private fun getR(): Float {
+    fun getR(): Float {
         return if (r == -1f) {
             val padding = max(max(paddingLeft, paddingRight), max(paddingTop, paddingBottom))
             r = (min(mWidth, mHeight) - padding) / 2f
@@ -385,6 +370,15 @@ class WidgetVisualizerView : View, BaseView {
      */
     fun setMusicCover(musicCover : Bitmap) {
         mMusicCover = musicCover
+        invalidate()
+    }
+
+    /**
+     * 获取封面主题色
+     */
+    private fun getVibrantColor(musicCover : Bitmap): Int {
+        val palette : Palette = Palette.from(getCircleBitmap(musicCover)).generate()
+        return palette.getLightVibrantColor(0)
     }
 
     /**
@@ -394,6 +388,9 @@ class WidgetVisualizerView : View, BaseView {
         mType = type
     }
 
+    /**
+     * 获取频域数据
+     */
     fun setVisualizer(sessionId : Int) {
         setVisualizer(Visualizer(sessionId).apply {
             enabled = false
@@ -405,8 +402,6 @@ class WidgetVisualizerView : View, BaseView {
 
                 override fun onFftDataCapture(visualizer: Visualizer, fft: ByteArray, samplingRate: Int) {
                     val model = FloatArray(fft.size / 2)
-                    // var j = 1
-                    // var i = 2
                     var j = 0
                     var i = 1
                     while (i < (model.size - 1) * 2) {
@@ -439,19 +434,59 @@ class WidgetVisualizerView : View, BaseView {
     fun setModel(model : FloatArray) {
         this.model = model
         modelAvg()
+        smooth()
         invalidate()
     }
 
     private fun modelAvg() {
-        val size = model.size / mWireCount
         modelAvg = FloatArray(mWireCount)
-        for (i in 0 until mWireCount) {
+        val size = model.size / takeCount
+        for (i in 0 until takeCount) {
             val s = model.slice(i * size until (i + 1) * size)
-            var count = 0f
-            s.forEach {
-                count += it
+            modelAvg[i * multiple] = s.sum() / size
+        }
+    }
+
+    /**
+     * 平滑
+     */
+    private fun smooth() {
+        if (modelAvg.isNotEmpty()) {
+            val max = modelAvg.sortedDescending()[0]
+            val r = getR() / 2
+            modelAvg[0] = max / 2
+            // 放大
+            modelAvg.clone().apply {
+                forEachIndexed { index, it ->
+                    val x = when {
+                        it < max / 20   -> { 11 }
+                        it < max / 15   -> { 9 }
+                        it < max / 10   -> { 7 }
+                        it < max / 7    -> { 5 }
+                        it < max / 5    -> { 3 }
+                        else            -> { 1 }
+                    }
+                    modelAvg[index] = it * x / max * r
+                }
             }
-            modelAvg[i] = count / size
+            // 平滑 插值
+            for (i in 1 .. takeCount) {
+                val start = modelAvg[(i - 1) * multiple]
+                val end = if (i == takeCount) {
+                    modelAvg[0]
+                } else {
+                    modelAvg[i * multiple]
+                }
+                val abs = abs(start - end) / multiple
+                for (j in ((i - 1) * multiple)until(i * multiple - 1)) {
+                    modelAvg[j + 1] = modelAvg[j] + if (start > end) {
+                        -abs
+                    } else {
+                        +abs
+                    }
+                }
+            }
+
         }
     }
 

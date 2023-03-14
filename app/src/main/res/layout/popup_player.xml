@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/bg_window"
     tools:context=".ui.activity.PlayerActivity">
 
     <ImageView
@@ -34,6 +35,16 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/ll_progress"
             app:layout_constraintTop_toBottomOf="@+id/iv_close" />
+
+        <ImageView
+            android:id="@+id/iv_music_cover_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/visualizer_view"
+            app:layout_constraintEnd_toEndOf="@+id/visualizer_view"
+            app:layout_constraintStart_toStartOf="@+id/visualizer_view"
+            app:layout_constraintTop_toTopOf="@+id/visualizer_view" />
 
         <LinearLayout
             android:id="@+id/ll_progress"
