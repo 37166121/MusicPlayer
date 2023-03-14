@@ -77,8 +77,6 @@ class MusicViewModel : BaseViewModel() {
      */
     val musicItems : LiveArrayList<MusicModel> = LiveArrayList(arrayListOf())
 
-    val copy_musicItems: LiveArrayList<MusicModel> = musicItems.clone() as LiveArrayList<MusicModel>
-
     val sessionIdListener: MutableLiveData<Int> = MutableLiveData()
 
     /**

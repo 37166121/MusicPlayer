@@ -107,6 +107,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.player.release()
-        SharedPreferencesUtils.putInt(SharedPreferencesUtils.POSITION, viewModel.nowPosition)
+        SharedPreferencesUtils.putInt(SharedPreferencesUtils.POSITION, viewModel.nowPosition).commit()
     }
 }
