@@ -9,20 +9,22 @@ import java.util.Date
 data class RequestModel(
     /**
      * 用户授权令牌，可在用户 Api 中调用获取
+     * @see <a href="https://developer.music.163.com/st/developer/">云音乐开放平台</a>
      */
-    val accessToken : String = SharedPreferencesUtils.getString(ACCESSTOKEN, "y8f3b107ed962c79ade975991c3cde622c77459eb28d2b14af"),
+    val accessToken : String = SharedPreferencesUtils.getString(ACCESSTOKEN, ""),
     /**
      * 应用 id 值，可从“管理中心” - “我的应用” - “查看和修改”中查看
+     * @see <a href="https://developer.music.163.com/st/developer/">云音乐开放平台</a>
      */
-    val appId : String = SharedPreferencesUtils.getString(APPID, "a301020000000000ac22dc8fa20e3795"),
-    /**
-     * 接口参数 json
-     */
-    val bizContentJson : String = "",
+    val appId : String = SharedPreferencesUtils.getString(APPID, ""),
     /**
      * 毫秒级时间戳，有效期5分钟
      */
     val timestamp : Long = Date().time,
+    /**
+     * 接口参数 json
+     */
+    val bizContentJson : String = "",
     /**
      * 接口地址
      */

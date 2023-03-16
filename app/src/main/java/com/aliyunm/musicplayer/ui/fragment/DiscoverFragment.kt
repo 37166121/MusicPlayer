@@ -41,45 +41,45 @@ class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, MusicViewModel>()
 
     }
 
-    fun searchFlow(key: String) = flow { emit(search(key)) }
+    private fun searchFlow(key: String) = flow { emit(search(key)) }
 
-    suspend fun search(key: String): ArrayList<MusicModel> {
-        return Service.searchMusic(key).records
+    private suspend fun search(key: String): ArrayList<MusicModel> {
+        return Service.searchMusic(key)?.records ?: arrayListOf()
     }
 
     override fun initView() {
-        viewBinding.webView.apply {
-
-            val assetLoader = WebViewAssetLoader.Builder()
-                .addPathHandler("/assets/", AssetsPathHandler(requireContext()))
-                .build()
-
-            webViewClient = object : WebViewClientCompat() {
-
-                override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest): WebResourceResponse? {
-                    return assetLoader.shouldInterceptRequest(request.url)
-                }
-
-                override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
-                    return assetLoader.shouldInterceptRequest(Uri.parse(url))
-                }
-
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                }
-            }
-
-            settings.apply {
-                defaultTextEncodingName = "UTF-8"
-                javaScriptEnabled = true
-                allowUniversalAccessFromFileURLs = false
-                allowFileAccess = false
-                allowContentAccess = false
-                mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-            }
-
-            loadUrl("https://appassets.androidplatform.net/assets/encSecKey.html")
-        }
+        // viewBinding.webView.apply {
+        //
+        //     val assetLoader = WebViewAssetLoader.Builder()
+        //         .addPathHandler("/assets/", AssetsPathHandler(requireContext()))
+        //         .build()
+        //
+        //     webViewClient = object : WebViewClientCompat() {
+        //
+        //         override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest): WebResourceResponse? {
+        //             return assetLoader.shouldInterceptRequest(request.url)
+        //         }
+        //
+        //         override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
+        //             return assetLoader.shouldInterceptRequest(Uri.parse(url))
+        //         }
+        //
+        //         override fun onPageFinished(view: WebView?, url: String?) {
+        //             super.onPageFinished(view, url)
+        //         }
+        //     }
+        //
+        //     settings.apply {
+        //         defaultTextEncodingName = "UTF-8"
+        //         javaScriptEnabled = true
+        //         allowUniversalAccessFromFileURLs = false
+        //         allowFileAccess = false
+        //         allowContentAccess = false
+        //         mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        //     }
+        //
+        //     loadUrl("https://appassets.androidplatform.net/assets/encSecKey.html")
+        // }
         viewBinding.etSearch.apply {
             textChangeFlow()
                 .filter { it.isNotEmpty() }
@@ -100,11 +100,11 @@ class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, MusicViewModel>()
         }
     }
 
-    fun generate(id : String) {
-        viewBinding.webView.evaluateJavascript("javascript:generate('$id')", object : ValueCallback<String> {
-            override fun onReceiveValue(value: String) {
-                println(value)
-            }
-        })
-    }
+    // fun generate(id : String) {
+    //     viewBinding.webView.evaluateJavascript("javascript:generate('$id')", object : ValueCallback<String> {
+    //         override fun onReceiveValue(value: String) {
+    //             println(value)
+    //         }
+    //     })
+    // }
 }

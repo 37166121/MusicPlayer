@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.view.ViewCompat
 
 object ScreenUtils {
 
@@ -16,30 +18,31 @@ object ScreenUtils {
      */
     fun fullScreen(window : Window) {
 
-        window.apply {
-            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            statusBarColor = Color.TRANSPARENT
-            navigationBarColor = Color.TRANSPARENT
-        }
-
-        // if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
-        //     // 内容延申到状态栏和导航栏
-        //     window.apply {
-        //         setDecorFitsSystemWindows(false)
-        //         statusBarColor = Color.TRANSPARENT
-        //         navigationBarColor = Color.TRANSPARENT
-        //     }
-        // } else {
-        //     window.apply {
-        //         clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        //         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        //         addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        //         statusBarColor = Color.TRANSPARENT
-        //         navigationBarColor = Color.TRANSPARENT
-        //     }
+        // window.apply {
+        //     clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        //     decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        //     addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        //     statusBarColor = Color.TRANSPARENT
+        //     navigationBarColor = Color.TRANSPARENT
         // }
+        val controller = ViewCompat.getWindowInsetsController(window.decorView)
+        controller?.isAppearanceLightStatusBars = true
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
+            // 内容延申到状态栏和导航栏
+            window.apply {
+                setDecorFitsSystemWindows(false)
+                statusBarColor = Color.TRANSPARENT
+                navigationBarColor = Color.TRANSPARENT
+            }
+        } else {
+            window.apply {
+                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                statusBarColor = Color.TRANSPARENT
+                navigationBarColor = Color.TRANSPARENT
+            }
+        }
     }
 
     /**

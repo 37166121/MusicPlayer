@@ -26,8 +26,20 @@
             android:layout_height="50dp"
             android:padding="10dp"
             android:src="@drawable/ic_close_1"
-            app:tint="@color/white"
-            tools:layout_editor_absoluteY="56dp" />
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_music_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingHorizontal="50dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_close"
+            app:layout_constraintTop_toTopOf="@+id/iv_close" />
 
         <com.aliyunm.musicplayer.widget.WidgetVisualizerView
             android:id="@+id/visualizer_view"

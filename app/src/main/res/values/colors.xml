@@ -10,11 +10,15 @@
 
     <color name="bg_window">#EDEDED</color>
     <color name="primary_color">#EC4141</color>
+    <color name="primary_color_2">#D86666</color>
 
     <color name="select_music_list_item">#EC4141</color>
 
     <color name="nav_color">#EC4141</color>
     <color name="nav_color_normal">#C3C4C4</color>
+
+    <color name="menu_color">#BCBCBC</color>
+    <color name="setting_color">#555555</color>
 
     <color name="text_color">#555555</color>
     <color name="text_color_normal">#1E1E1E</color>

@@ -1,7 +1,9 @@
 package com.aliyunm.musicplayer.ui.activity
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aliyunm.common.ui.BaseActivity
@@ -33,7 +35,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
             PlayerBottomFragment()
         }
         viewModel.musicListPopup = MusicListPopup(this)
-
+        viewModel.player.apply {
+            prepare()
+            viewModel.getProgress()
+        }
         viewModel.isPlaying.observe(this) {
             if (it) {
                 viewModel.player.play()
@@ -108,5 +113,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
         super.onDestroy()
         viewModel.player.release()
         SharedPreferencesUtils.putInt(SharedPreferencesUtils.POSITION, viewModel.nowPosition).commit()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val home = Intent(Intent.ACTION_MAIN).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                addCategory(Intent.CATEGORY_HOME)
+            }
+            startActivity(home)
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

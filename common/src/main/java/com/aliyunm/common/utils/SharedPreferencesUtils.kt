@@ -9,7 +9,17 @@ object SharedPreferencesUtils {
     private lateinit var mEditor : Editor
 
     const val POSITION = "position"
+
+    /**
+     * 用户授权令牌，可在用户 Api 中调用获取
+     * @see <a href="https://developer.music.163.com/st/developer/">云音乐开放平台</a>
+     */
     const val ACCESSTOKEN = "accessToken"
+
+    /**
+     * 应用 id 值，可从“管理中心” - “我的应用” - “查看和修改”中查看
+     * @see <a href="https://developer.music.163.com/st/developer/">云音乐开放平台</a>
+     */
     const val APPID = "appId"
 
     fun setSharedPreferences(sharedPreferences : SharedPreferences) {

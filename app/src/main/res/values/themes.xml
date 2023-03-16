@@ -12,12 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        
+        <item name="android:windowSoftInputMode">stateHidden|adjustPan</item>
 
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-
-    </style>
-    <style name="Theme.MusicPlayer.Light" parent="Theme.MusicPlayer">
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
 
@@ -89,6 +86,22 @@
     <style name="Text.SubSmall">
         <item name="android:textColor">@color/text_color_subtitle</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:background">@drawable/bg_edittext</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:background">@drawable/bg_edittext</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

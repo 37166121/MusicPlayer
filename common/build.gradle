@@ -58,5 +58,6 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+    implementation 'com.blankj:utilcodex:1.30.6'
 
 }

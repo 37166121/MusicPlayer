@@ -7,26 +7,34 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.fragment.DiscoverFragment">
 
-    <EditText
-        android:id="@+id/et_search"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="搜索"
+        android:layout_height="match_parent"
         android:paddingHorizontal="15dp"
-        android:paddingVertical="15dp" />
+        android:paddingTop="15dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_music_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_search" />
+        <EditText
+            android:id="@+id/et_search"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="搜索" />
 
-    <WebView
-        android:id="@+id/web_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_music_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_search"
+            tools:listitem="@layout/item_search_music_list"/>
+
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

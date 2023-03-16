@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.aliyunm.common.utils.GsonUtils
 import com.aliyunm.musicplayer.http.Config.API
-import com.aliyunm.musicplayer.http.Config.NET_EASE_API
 import com.aliyunm.musicplayer.http.Path.SEARCH_SONG
 import com.aliyunm.musicplayer.model.MusicModel
 import com.aliyunm.musicplayer.model.apiModel.RequestModel
@@ -35,12 +34,12 @@ object Service {
         }.await()
     }
 
-    suspend fun searchMusic(keyword : String, pageSize : Int = mPageSize, pageNum : Int = mPageNum): ResponseDataModel.Data<MusicModel> {
+    suspend fun searchMusic(keyword : String, pageSize : Int = mPageSize, pageNum : Int = mPageNum): ResponseDataModel.Data<MusicModel>? {
         return CoroutineScope(Dispatchers.IO).async {
             val request : RequestModel = RequestModel(bizContentJson = SearchMusicModel(keyword, pageSize.toString(), pageNum.toString()).toJson(), url = SEARCH_SONG)
-            val responseBody = NET_EASE_API.request(request)
+            val responseBody = API.request(request)
             val s = GsonUtils.fromJson(responseBody.string(), object : TypeToken<ResponseBodyModel<ResponseDataModel<ResponseDataModel.Data<MusicModel>>>>(){})
-            s.data.responseData
+            s.data?.responseData
         }.await()
     }
 

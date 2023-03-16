@@ -2,6 +2,7 @@ package com.aliyunm.musicplayer.popup
 
 import android.animation.ObjectAnimator
 import android.view.LayoutInflater
+import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -27,17 +28,25 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
     private lateinit var operatingAnim: ObjectAnimator
 
     override fun initData() {
-        viewModel = CommonApplication.getApplication().getViewModel(MusicViewModel::class.java)
+        viewModel = CommonApplication.getApplication().getViewModel(MusicViewModel::class.java).apply {
+
+            musicItems.clear.observe(getActivity()) {
+                dismiss()
+            }
+
+            position.observe(getActivity()) {
+                setBackground()
+                viewBinding.tvMusicName.text = musicItems[it].name
+                operatingAnim.cancel()
+                operatingAnim.start()
+            }
+            progressListener.observe(getActivity()) {
+                viewBinding.tvTime.text = time(it.toLong())
+                viewBinding.tvCountTime.text = time(player.duration)
+            }
+        }
+
         viewBinding.visualizerView.setVisualizer(viewModel.player.audioSessionId)
-        viewModel.position.observe(getActivity()) {
-            setBackground()
-            operatingAnim.cancel()
-            operatingAnim.start()
-        }
-        viewModel.progressListener.observe(getActivity()) {
-            viewBinding.tvTime.text = time(it.toLong())
-            viewBinding.tvCountTime.text = time(viewModel.player.duration)
-        }
 
         operatingAnim = ObjectAnimator.ofFloat(viewBinding.ivMusicCoverCenter, "rotation", 0f, 359f).apply {
             duration = 15 * 1000
@@ -119,8 +128,9 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
     }
 
     private fun time(ms : Long) : String {
-        val m = ms / 1000 / 60
-        val s = ms / 1000 % 60
+        val t = if (ms < 0) 0 else ms
+        val m = t / 1000 / 60
+        val s = t / 1000 % 60
         return "${ if (m < 10) "0${m}" else m }:${ if (s < 10) "0${s}" else s }"
     }
 
@@ -130,6 +140,8 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
 
     override fun show(isDark : Boolean) {
         setBackground()
+        getActivityWindow().decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        viewBinding.tvMusicName.text = viewModel.musicItems[viewModel.nowPosition].name
         viewBinding.visualizerView.setVisualizerEnabled(true)
         val height: Int = getScreenHeight(getActivity())
         super.show(LinearLayout.LayoutParams.MATCH_PARENT, height, false)
@@ -152,6 +164,7 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
 
     override fun dismiss() {
         super.dismiss()
+        getActivityWindow().decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         viewBinding.visualizerView.setVisualizerEnabled(false)
     }
 

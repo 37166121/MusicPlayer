@@ -40,16 +40,6 @@ class WidgetVisualizerView : View, BaseView {
     private var isPlaying: Boolean = false
 
     /**
-     * 频域数据
-     */
-    private var model : FloatArray = floatArrayOf()
-
-    /**
-     * 根据 [mWireCount] 计算平均值
-     */
-    private var modelAvg : FloatArray = floatArrayOf()
-
-    /**
      * 歌曲封面
      */
     private lateinit var mMusicCover : Bitmap
@@ -67,6 +57,16 @@ class WidgetVisualizerView : View, BaseView {
      * 线条总数
      */
     private var mWireCount : Int = takeCount * multiple
+
+    /**
+     * 频域数据
+     */
+    private var model : FloatArray = floatArrayOf()
+
+    /**
+     * 根据 [mWireCount] 计算平均值
+     */
+    private var modelAvg : FloatArray = FloatArray(mWireCount)
 
     /**
      * 竖线宽度
@@ -158,12 +158,6 @@ class WidgetVisualizerView : View, BaseView {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (this::mMusicCover.isInitialized) {
-            // drawCover(mMusicCover, canvas)
-            getVibrantColor(mMusicCover).apply {
-                paint.color = this
-            }
-        }
 
         // val path : Path = Path()
         // path.cubicTo(0f, 0f, 10f, 15f, 20f, 25f)
@@ -370,6 +364,9 @@ class WidgetVisualizerView : View, BaseView {
      */
     fun setMusicCover(musicCover : Bitmap) {
         mMusicCover = musicCover
+        getVibrantColor(mMusicCover).apply {
+            paint.color = this
+        }
         invalidate()
     }
 
@@ -378,7 +375,7 @@ class WidgetVisualizerView : View, BaseView {
      */
     private fun getVibrantColor(musicCover : Bitmap): Int {
         val palette : Palette = Palette.from(getCircleBitmap(musicCover)).generate()
-        return palette.getLightVibrantColor(0)
+        return palette.swatches.first().rgb
     }
 
     /**
