@@ -1,6 +1,7 @@
 package com.aliyunm.musicplayer.http
 
 import com.aliyunm.musicplayer.http.Path.REQUEST
+import com.aliyunm.musicplayer.http.Path.SEARCH_SONG
 import com.aliyunm.musicplayer.model.apiModel.RequestModel
 import okhttp3.ResponseBody
 import retrofit2.http.Body
@@ -16,4 +17,7 @@ interface Api {
 
     @POST(REQUEST)
     suspend fun request(@Body request : RequestModel) : ResponseBody
+
+    @POST(SEARCH_SONG)
+    suspend fun searchMusic(@Body request : RequestModel) : ResponseBody
 }

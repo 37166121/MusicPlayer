@@ -76,7 +76,7 @@ class MusicViewModel : BaseViewModel() {
      * 播放列表
      */
     val musicItems : LiveArrayList<MusicModel> = LiveArrayList(arrayListOf(
-        MusicModel(path = "http://m704.music.126.net/20230316091239/31d2e7c4ebc8a2a84504021ba5027335/jdyyaac/0e08/0509/030b/9b3f77a8fc2c7f3f18ce4a8b28a074a3.m4a", name = "Hello", singer = "artistName", coverPath = "http://p1.music.126.net/AiGAvupmUbL-hNQfsfSfeQ==/109951168021305745.jpg")
+        MusicModel(path = "http://192.168.1.2:8800/Man On The Moon.mp4", name = "Hello", singer = "artistName", coverPath = "http://p1.music.126.net/AiGAvupmUbL-hNQfsfSfeQ==/109951168021305745.jpg")
     ))
 
     val sessionIdListener: MutableLiveData<Int> = MutableLiveData()
