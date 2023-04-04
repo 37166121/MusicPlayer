@@ -10,6 +10,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MusicApplication : CommonApplication() {
+
+    companion object {
+        init {
+            System.loadLibrary("musicplayer")
+            System.loadLibrary("music-helper")
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         SharedPreferencesUtils.setSharedPreferences(getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE))
