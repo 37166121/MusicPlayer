@@ -19,6 +19,9 @@ project("musicplayer")
 add_library(libavcodec SHARED IMPORTED)
 set_target_properties(libavcodec PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../jniLibs/${CMAKE_ANDROID_ARCH_ABI}/libavcodec.so)
 
+add_library(libavdevice SHARED IMPORTED)
+set_target_properties(libavdevice PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../jniLibs/${CMAKE_ANDROID_ARCH_ABI}/libavdevice.so)
+
 add_library(libavfilter SHARED IMPORTED)
 set_target_properties(libavfilter PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../jniLibs/${CMAKE_ANDROID_ARCH_ABI}/libavfilter.so)
 

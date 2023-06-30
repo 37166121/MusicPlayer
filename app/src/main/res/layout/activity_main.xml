@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".ui.activity.MainActivity">
 
     <LinearLayout
@@ -21,17 +20,17 @@
         <FrameLayout
             android:id="@+id/fragment_player_bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"/>
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="15dp"
-            android:elevation="0dp"
             android:theme="@style/Nav"
             android:background="@android:color/white"
+            app:backgroundTint="@color/nav_overall_color"
+            app:elevation="0dp"
             app:itemRippleColor="@null"
             app:itemBackground="@android:color/transparent"
             app:itemTextAppearanceActive="@style/bottom_tab_title_active"

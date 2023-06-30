@@ -16,33 +16,20 @@ object ScreenUtils {
     /**
      * 全屏
      */
-    fun fullScreen(window : Window) {
-
-        // window.apply {
-        //     clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        //     decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        //     addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        //     statusBarColor = Color.TRANSPARENT
-        //     navigationBarColor = Color.TRANSPARENT
-        // }
-        val controller = ViewCompat.getWindowInsetsController(window.decorView)
-        controller?.isAppearanceLightStatusBars = true
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
-            // 内容延申到状态栏和导航栏
-            window.apply {
-                setDecorFitsSystemWindows(false)
-                statusBarColor = Color.TRANSPARENT
-                navigationBarColor = Color.TRANSPARENT
-            }
-        } else {
-            window.apply {
-                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                statusBarColor = Color.TRANSPARENT
-                navigationBarColor = Color.TRANSPARENT
-            }
-        }
+    fun fullScreen(window: Window) {
+        // <!-- Status bar color. -->
+        // <item name="android:statusBarColor">@android:color/transparent</item>
+        // <item name="android:navigationBarColor">@android:color/transparent</item>
+        // <!-- Customize your theme here. -->
+        // <item name="android:windowTranslucentNavigation">true</item>
+        // <item name="android:windowTranslucentStatus">true</item>
+        //
+        // <item name="android:windowSoftInputMode">stateHidden|adjustPan</item>
+        //
+        // <item name="android:windowLightStatusBar">true</item>
+        // <item name="android:windowLightNavigationBar">true</item>
+        // <item name="android:windowContentOverlay">@null</item>
+        // <item name="android:fitsSystemWindows">true</item>
     }
 
     /**
@@ -53,7 +40,8 @@ object ScreenUtils {
      */
     fun getStatusBarHeight(context: Context): Int {
         // 获得状态栏高度
-        val resourceId: Int = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        val resourceId: Int =
+            context.resources.getIdentifier("status_bar_height", "dimen", "android")
         return context.resources.getDimensionPixelSize(resourceId)
     }
 

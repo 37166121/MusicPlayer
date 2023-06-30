@@ -9,7 +9,7 @@
         android:translateX="250.88"
         android:translateY="250.88">
         <path
-            android:fillColor="#EA3E3C"
+            android:fillColor="@color/netease_music_color"
             android:pathData="M0,0m184.3,0l655.4,0q184.3,0 184.3,184.3l0,655.4q0,184.3 -184.3,184.3l-655.4,0q-184.3,0 -184.3,-184.3l0,-655.4q0,-184.3 184.3,-184.3Z" />
         <path
             android:fillColor="#FFFFFF"

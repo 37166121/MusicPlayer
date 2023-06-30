@@ -5,17 +5,14 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.Rect
 import android.graphics.RectF
 import android.media.audiofx.Visualizer
 import android.util.AttributeSet
 import android.view.View
 import androidx.palette.graphics.Palette
 import com.aliyunm.common.utils.BitmapUtils
+import com.aliyunm.common.utils.BitmapUtils.getCircleBitmap
 import com.aliyunm.musicplayer.widget.WidgetVisualizerView.Type.SATELLITE
-import com.aliyunm.musicplayer.widget.WidgetVisualizerView.Type.VERTICAL
 import com.aliyunm.musicplayer.widget.WidgetVisualizerView.Type.WAVE
 import kotlin.math.PI
 import kotlin.math.abs
@@ -64,7 +61,7 @@ class WidgetVisualizerView : View, BaseView {
     private var model : FloatArray = floatArrayOf()
 
     /**
-     * 根据 [mWireCount] 计算平均值
+     * 根据 [mWireCount] 计算频域数据平均值
      */
     private var modelAvg : FloatArray = FloatArray(mWireCount)
 
@@ -119,14 +116,9 @@ class WidgetVisualizerView : View, BaseView {
         const val WAVE = 0
 
         /**
-         * 柱状
-         */
-        const val VERTICAL = 1
-
-        /**
          * 卫星
          */
-        const val SATELLITE = 2
+        const val SATELLITE = 1
     }
 
     constructor(context: Context) : this(context, null)
@@ -158,42 +150,13 @@ class WidgetVisualizerView : View, BaseView {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        // val path : Path = Path()
-        // path.cubicTo(0f, 0f, 10f, 15f, 20f, 25f)
-        // canvas.drawPath(path, Paint().apply {
-        //     strokeWidth = 5f
-        //     strokeCap = Paint.Cap.ROUND
-        //     strokeJoin = Paint.Join.ROUND
-        //     style = Paint.Style.STROKE
-        // })
-        // path.cubicTo(250f, 80f, 180f, 150f, 100f, 50f)
-        // canvas.drawPath(path, Paint().apply {
-        //     strokeWidth = 5f
-        //     strokeCap = Paint.Cap.ROUND
-        //     strokeJoin = Paint.Join.ROUND
-        //     style = Paint.Style.STROKE
-        // })
-
-        // test()
-
         getCountWidth()
         translate(canvas)
         drawS(canvas)
     }
 
     private fun translate(canvas: Canvas) {
-        when (mType) {
-            WAVE        -> {
-                canvas.translate(mWidth / 2f, mHeight / 2f)
-            }
-            VERTICAL    -> {
-                canvas.translate(getStartX(), b / 2 + 0f)
-            }
-            SATELLITE   -> {
-                canvas.translate(mWidth / 2f, mHeight / 2f)
-            }
-        }
+        canvas.translate(mWidth / 2f, mHeight / 2f)
     }
 
     private fun drawS(canvas: Canvas) {
@@ -203,11 +166,6 @@ class WidgetVisualizerView : View, BaseView {
                 WAVE        -> {
                     // 画圆弧
                 }
-                // VERTICAL    -> {
-                //     // 画柱状
-                //     canvas.drawLine(x, 0f, x, -it, paint)
-                //     x += mSpacing * 2
-                // }
                 SATELLITE   -> {
                     // 画卫星柱状
                     val angle = 360 / mWireCount
@@ -236,32 +194,6 @@ class WidgetVisualizerView : View, BaseView {
         canvas.drawBitmap(bitmap, getLeftSpaceBitmap(bitmap) + 0f,getTopSpaceBitmap(bitmap) + 0f, paint.apply {
             color = Color.BLACK
         })
-    }
-
-    private fun getCircleBitmap(musicCover : Bitmap): Bitmap {
-        val paint = Paint()
-        paint.isAntiAlias = true
-        //获取资源图片
-        val bitmap: Bitmap = musicCover.copy(Bitmap.Config.ARGB_8888, true)
-        //创建空位图
-        val output = Bitmap.createBitmap(musicCover.width, musicCover.height, Bitmap.Config.ARGB_8888)
-        //创建画板
-        val canvas = Canvas(output)
-        //绘制整个画板为透明
-        canvas.drawColor(Color.TRANSPARENT)
-        paint.color = Color.WHITE
-        //绘制圆形图片
-        //取view宽高中的小值 尽量保证图片内容的显示
-        val minValue = Math.min(musicCover.width, musicCover.height)
-        //设置半径
-        val mRadius = minValue / 2f
-        canvas.drawCircle(mRadius, mRadius, mRadius, paint)
-        //设置图形相交模式
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        val src = Rect(0, 0, bitmap.width, bitmap.height)
-        val dst = Rect(0, 0, output.width, output.height)
-        canvas.drawBitmap(bitmap, src, dst, paint)
-        return output
     }
 
     private fun test() {
@@ -445,7 +377,7 @@ class WidgetVisualizerView : View, BaseView {
     }
 
     /**
-     * 平滑
+     * 平滑数据
      */
     private fun smooth() {
         if (modelAvg.isNotEmpty()) {

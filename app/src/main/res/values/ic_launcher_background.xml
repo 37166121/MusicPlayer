@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#EA3E3C</color>
+    <color name="ic_launcher_background">@color/netease_music_color</color>
 </resources>

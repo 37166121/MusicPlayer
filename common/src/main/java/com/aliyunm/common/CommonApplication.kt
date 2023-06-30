@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 abstract class CommonApplication : Application(), ViewModelStoreOwner {
 
     private var commonViewModel : CommonViewModel
-    private var mViewModelStore: ViewModelStore
+    override lateinit var viewModelStore: ViewModelStore
     companion object {
         private lateinit var mApplication: CommonApplication
 
@@ -20,12 +20,8 @@ abstract class CommonApplication : Application(), ViewModelStoreOwner {
 
     init {
         mApplication = this
-        mViewModelStore = ViewModelStore()
+        viewModelStore = ViewModelStore()
         commonViewModel = getViewModel(CommonViewModel::class.java)
-    }
-
-    override fun getViewModelStore(): ViewModelStore {
-        return mViewModelStore
     }
 
     fun<T : ViewModel> getViewModel(modelClass: Class<T>) : T {

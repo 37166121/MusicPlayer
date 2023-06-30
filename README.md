@@ -1,5 +1,6 @@
 # MusicPlayer 仿网易云播放器
 使用网易云音乐开放平台接口 <a href="https://developer.music.163.com/st/developer/document?category=sandbox">文档中心</a>
+FFmpeg 5.0
 
 ## Note
 

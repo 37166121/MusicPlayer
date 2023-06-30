@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="netease_music_color">#E31F00</color>
     <color name="bg_window">#EDEDED</color>
     <color name="primary_color">#EC4141</color>
-    <color name="primary_color_2">#D86666</color>
+    <color name="secondary_color">#D86666</color>
 
     <color name="select_music_list_item">#EC4141</color>
 
     <color name="nav_color">#EC4141</color>
     <color name="nav_color_normal">#C3C4C4</color>
+    <color name="nav_overall_color">#FFFFFF</color>
 
     <color name="menu_color">#BCBCBC</color>
     <color name="setting_color">#555555</color>
@@ -25,6 +22,7 @@
     <color name="text_color_title">#1E1E1E</color>
     <color name="text_color_subtitle">#555555</color>
 
+    <color name="play_button_state_color">#1E1E1E</color>
     <color name="play_button_color">#B31E1E1E</color>
     <color name="play_button_color_bg">#B3BCBCBC</color>
 </resources>

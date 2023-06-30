@@ -39,6 +39,13 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivit
     }
 
     /**
+     * 请求权限
+     */
+    fun requestPermission() {
+
+    }
+
+    /**
      * 点击空白处隐藏软键盘
      */
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {

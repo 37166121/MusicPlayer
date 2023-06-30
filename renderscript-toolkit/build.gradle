@@ -4,15 +4,17 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    namespace 'com.google.android.renderscript'
+    compileSdk rootProject.ext.compileSdk
+    // compileSdkVersion 31
+    // buildToolsVersion "31.0.0"
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
-        
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
+        // minSdkVersion 16
+        // targetSdkVersion 34
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         externalNativeBuild {
@@ -29,11 +31,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility rootProject.ext.javaTarget
+        targetCompatibility rootProject.ext.javaTarget
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = rootProject.ext.kotlinTarget
     }
     externalNativeBuild {
         cmake {

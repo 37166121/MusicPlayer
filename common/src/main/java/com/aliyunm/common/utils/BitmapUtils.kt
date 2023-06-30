@@ -3,7 +3,12 @@ package com.aliyunm.common.utils
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
@@ -13,6 +18,7 @@ import android.view.View
 import com.aliyunm.common.utils.ScreenUtils.getScreenHeight
 import com.aliyunm.common.utils.ScreenUtils.getScreenWidth
 import com.google.android.renderscript.Toolkit
+import java.math.BigInteger
 
 object BitmapUtils {
     /**
@@ -83,5 +89,37 @@ object BitmapUtils {
         } else {
             blur(image, blurRadius)
         }
+    }
+
+    /**
+     * 裁剪圆形bitmap
+     * @param bitmap Bitmap
+     * @param asSmall Boolean 尽可能小
+     * @return Bitmap
+     */
+    fun getCircleBitmap(bitmap : Bitmap, asSmall : Boolean = false): Bitmap {
+        val paint = Paint()
+        paint.isAntiAlias = true
+        //获取资源图片
+        val bitmap: Bitmap = bitmap.copy(if (asSmall) Bitmap.Config.ARGB_4444 else Bitmap.Config.ARGB_8888, true)
+        //创建空位图
+        val output = Bitmap.createBitmap(bitmap.width, bitmap.height, if (asSmall) Bitmap.Config.ARGB_4444 else Bitmap.Config.ARGB_8888)
+        //创建画板
+        val canvas = Canvas(output)
+        //绘制整个画板为透明
+        canvas.drawColor(Color.TRANSPARENT)
+        paint.color = Color.WHITE
+        //绘制圆形图片
+        //取view宽高中的小值 尽量保证图片内容的显示
+        val minValue = Math.min(bitmap.width, bitmap.height)
+        //设置半径
+        val mRadius = minValue / 2f
+        canvas.drawCircle(mRadius, mRadius, mRadius, paint)
+        //设置图形相交模式
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        val src = Rect(0, 0, bitmap.width, bitmap.height)
+        val dst = Rect(0, 0, output.width, output.height)
+        canvas.drawBitmap(bitmap, src, dst, paint)
+        return output
     }
 }

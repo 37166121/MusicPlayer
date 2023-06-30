@@ -3,7 +3,6 @@ package com.aliyunm.musicplayer.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.aliyunm.common.CommonApplication
 import com.aliyunm.musicplayer.LiveArrayList
-import com.aliyunm.musicplayer.http.Path.BASEURL
 import com.aliyunm.musicplayer.model.MusicModel
 import com.aliyunm.musicplayer.popup.MusicListPopup
 import com.aliyunm.musicplayer.popup.PlayerPopup
@@ -12,16 +11,12 @@ import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.util.EventLogger
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
 class MusicViewModel : BaseViewModel() {
-
-    val historyPosition: ArrayList<Int> = arrayListOf()
 
     /**
      * 通知页面更改UI
@@ -31,41 +26,47 @@ class MusicViewModel : BaseViewModel() {
     var oldPosition = 0
 
     var nowPosition: Int by Delegates.observable(-1) { property, oldValue, newValue ->
-        if (!isFirst) {
-            if (musicItems.isNotEmpty()) {
-                if (oldValue >= 0) {
-                    musicItems[oldValue].isPlaying = false
-                }
-                musicItems[newValue].isPlaying = true
-                player.seekTo(newValue, 0)
-                player.play()
-                isPlaying.value = true
-                position.value = newValue
-                oldPosition = newValue
-            }
-            if (pointer == 0 && oldValue != newValue) {
+        if (musicItems.isNotEmpty()) {
+            // 如果到了第一首 点上一首 那么往第0个位置插
+            if (pointer == 0) {
                 historyPosition.add(0, newValue)
             }
-            if (pointer == historyPosition.size && oldValue != newValue) {
+            // 如果到了最后一条 继续下一首 那么往最后的位置插
+            if (pointer == historyPosition.size) {
                 pointer++
                 historyPosition.add(newValue)
             }
+            if (oldValue >= 0) {
+                musicItems[oldValue].isPlaying = false
+            }
+            musicItems[newValue].isPlaying = true
+            position.value = newValue
+            oldPosition = newValue
+            player.seekTo(newValue, 0)
+            player.play()
         }
     }
 
-    fun btn() {
-        // nowPosition = nowPosition
-        isPlaying.value = !isPlaying.value!!
-    }
-
-    fun scroll(newValue: Int) {
-        if (nowPosition != newValue) {
-            nowPosition = newValue
-            isPlaying.value = true
+    /**
+     * 切换播放状态
+     */
+    fun switch() {
+        if (player.isPlaying) {
+            player.pause()
+        } else {
+            player.play()
         }
     }
 
-    var isFirst = true
+    /**
+     * 指定播放位置
+     * @param position Int 当前第[position]个item
+     */
+    fun play(position: Int) {
+        if (nowPosition != position) {
+            nowPosition = position
+        }
+    }
 
     /**
      * 点击控制按钮更改播放状态 或 更改歌单改变控制按钮状态
@@ -85,11 +86,12 @@ class MusicViewModel : BaseViewModel() {
      * 播放器
      */
     var player: ExoPlayer = ExoPlayer.Builder(CommonApplication.getApplication()).build().apply {
-        musicItems.forEach {
-            addMediaItem(it.mediaItem)
-        }
         repeatMode = Player.REPEAT_MODE_OFF
         addListener(object : Player.Listener {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                this@MusicViewModel.isPlaying.value = isPlaying
+            }
             override fun onPlaybackStateChanged(playbackState: Int) {
                 super.onPlaybackStateChanged(playbackState)
                 when (playbackState) {
@@ -143,34 +145,47 @@ class MusicViewModel : BaseViewModel() {
     var pointer = 0
 
     /**
+     * 播放历史记录
+     */
+    val historyPosition: ArrayList<Int> = arrayListOf()
+
+    /**
      * 上一首
      */
     fun previous() {
-        pointer--
-        if (pointer < 0) {
-            pointer = 0
+        if (pointer > 0) {
+            pointer--
         }
         player.pause()
-        nextPosition(false)
+        nextPosition(false, isNext = false)
     }
 
     /**
      * 下一首
      */
     fun playerNext(isAuto: Boolean) {
+        pointer++
         player.pause()
         nextPosition(isAuto)
     }
 
     /**
      * 计算下一首歌position
+     * 需要综合判断：自动下一首、手动上/下一首、[pointer]在0时上一首、[pointer]在末尾时下一首、[pointer]在中间时自动/手动上/下一首
+     * @param isAuto Boolean 是否自动
+     * @param random Boolean 是否随机
+     * @param isNext Boolean 是否下一首
      */
-    private fun nextPosition(isAuto: Boolean, random: Boolean = false) {
+    private fun nextPosition(isAuto: Boolean, random: Boolean = false, isNext : Boolean = true) {
+        var position = 0
         if (isAuto) {
+            // 自动下一首
             if (pointer != historyPosition.size) {
-                nowPosition = historyPosition[pointer++]
+                position = historyPosition[pointer]
+                play(position)
+                return
             }
-            nowPosition = when (repeatMode.value) {
+            position = when (repeatMode.value) {
                 Player.REPEAT_MODE_OFF -> {
                     // 随机循环
                     (Math.random() * musicItems.size).toInt()
@@ -194,12 +209,15 @@ class MusicViewModel : BaseViewModel() {
                 }
             }
         } else {
+            // 手动点上一首/下一首
             if (pointer == 0 || pointer == historyPosition.size) {
-                nextPosition(true, true)
+                nextPosition(true, random)
+                return
             } else {
-                nowPosition = historyPosition[pointer - 1]
+                position = historyPosition[pointer - if (isNext) -1 else 1]
             }
         }
+        play(position)
     }
 
     val progressListener : MutableLiveData<Int> = MutableLiveData()

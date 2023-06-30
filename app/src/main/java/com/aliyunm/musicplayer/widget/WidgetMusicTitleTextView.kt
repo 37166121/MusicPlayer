@@ -50,7 +50,7 @@ class WidgetMusicTitleTextView : AppCompatTextView, BaseView {
         return singer.substring(0, singer.length - 1)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
     }
 

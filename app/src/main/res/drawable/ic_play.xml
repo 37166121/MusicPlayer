@@ -4,6 +4,6 @@
     android:viewportWidth="200"
     android:viewportHeight="200">
   <path
-      android:fillColor="#FF000000"
+      android:fillColor="@color/play_button_state_color"
       android:pathData="M76,100v25.3c0,3.6 3.9,5.9 7.1,4.1l21.9,-12.6l21.9,-12.6c3.1,-1.8 3.1,-6.4 0,-8.2L105,83.3L83.1,70.6C80,68.8 76,71.1 76,74.7V100z"/>
 </vector>

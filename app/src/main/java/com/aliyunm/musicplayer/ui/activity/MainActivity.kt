@@ -34,60 +34,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
         } else {
             PlayerBottomFragment()
         }
-        viewModel.musicListPopup = MusicListPopup(this)
-        viewModel.player.apply {
-            prepare()
-            viewModel.getProgress()
-        }
-        viewModel.isPlaying.observe(this) {
-            if (it) {
-                viewModel.player.play()
-            } else {
-                viewModel.player.pause()
-            }
-        }
-        viewModel.musicItems.apply {
-
-            event.observe(this@MainActivity) {
-                if (size == 0) {
-                    viewModel.nowPosition = 0
-                }
-            }
-
-            add.observe(this@MainActivity) {
-                viewModel.player.addMediaItem(it!!.mediaItem)
-            }
-
-            addAll.observe(this@MainActivity) { musicList ->
-                musicList.forEach {
-                    viewModel.player.addMediaItem(it.mediaItem)
-                }
-            }
-
-            remove.observe(this@MainActivity) {
-
-            }
-
-            removeAt.observe(this@MainActivity) { position ->
-                viewModel.player.removeMediaItem(position)
-            }
-
-            removeAll.observe(this@MainActivity) {
-                viewModel.player.clearMediaItems()
-            }
-
-            clear.observe(this@MainActivity) {
-                viewModel.player.clearMediaItems()
-            }
-        }
-        viewModel.nowPosition = SharedPreferencesUtils.getInt(SharedPreferencesUtils.POSITION, 0)
-        PermissionUtils.requestPermission(this, Manifest.permission.RECORD_AUDIO, {
-            // 权限被允许
-            viewModel.isRecordAudio = true
-            viewModel.playerPopup = PlayerPopup(this)
-        }, {
-            // 权限被拒绝
-        })
     }
 
     override fun initView() {

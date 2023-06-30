@@ -26,6 +26,13 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
         return viewBinding.root
     }
 
+    /**
+     * 请求权限
+     */
+    fun requestPermission() {
+
+    }
+
     abstract fun setBinding(): VB
 
     abstract fun setViewModel() : Class<VM>

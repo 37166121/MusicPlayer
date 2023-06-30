@@ -36,7 +36,7 @@ fun EditText.textChangeFlow(): Flow<Editable> = callbackFlow {
         override fun beforeTextChanged( s: CharSequence?, start: Int, count: Int, after: Int ) { }
         // 在文本变化后向流发射数据
         override fun onTextChanged( s: CharSequence?, start: Int, before: Int, count: Int ) {
-            s?.let { offer(it as Editable) }
+            s?.let { trySend(it as Editable).isSuccess }
         }
     }
     addTextChangedListener(watcher)
