@@ -10,7 +10,7 @@ import com.aliyunm.common.utils.GlideUtils
 import com.aliyunm.musicplayer.databinding.ItemMusicPlayerBottomBinding
 import com.aliyunm.musicplayer.model.MusicModel
 
-class PlayerBottomAdapter(override val data : ArrayList<MusicModel>, val clickCallback : () -> Unit = {}) : BaseAdapter<MusicModel, PlayerBottomAdapter.PlayerBottomViewHolder>(data) {
+class PlayerBottomAdapter(override val data : ArrayList<MusicModel>, val clickCallback : (Int) -> Unit = {}) : BaseAdapter<MusicModel, PlayerBottomAdapter.PlayerBottomViewHolder>(data) {
 
     private var operatingAnim: ObjectAnimator = ObjectAnimator()
 
@@ -37,7 +37,7 @@ class PlayerBottomAdapter(override val data : ArrayList<MusicModel>, val clickCa
             tvMusicSinger.text = item.singer
             startAnimation(item)
             root.setOnClickListener {
-                clickCallback()
+                clickCallback(position)
             }
         }
     }

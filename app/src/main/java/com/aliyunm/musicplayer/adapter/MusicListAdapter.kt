@@ -11,7 +11,7 @@ import com.aliyunm.musicplayer.LiveArrayList
 import com.aliyunm.musicplayer.databinding.ItemMusicListBinding
 import com.aliyunm.musicplayer.model.MusicModel
 
-class MusicListAdapter(override val data : LiveArrayList<MusicModel>, private val callback : (playingPosition : Int) -> Unit = {}) : BaseAdapter<MusicModel, MusicListAdapter.MusicListViewHolder>(data) {
+class MusicListAdapter(override val data : LiveArrayList<MusicModel>, private val callback : (position : Int) -> Unit = {}) : BaseAdapter<MusicModel, MusicListAdapter.MusicListViewHolder>(data) {
 
     private var oldPosition = 0
 

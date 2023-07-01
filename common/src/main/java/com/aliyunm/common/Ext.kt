@@ -3,10 +3,12 @@ package com.aliyunm.common
 import android.graphics.Bitmap
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import com.aliyunm.common.utils.BitmapUtils
 import com.aliyunm.common.utils.GlideUtils
+import com.aliyunm.common.utils.ViewUtils
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -24,6 +26,13 @@ fun ImageView.setImage(path: Any, type: Int = 0, radian: Int = 4) {
 fun ImageView.setBlurTransformation(bitmap: Bitmap, blurRadius : Float = 50f) {
     GlideUtils.setBlurTransformation(context, bitmap, this)
     BitmapUtils.blur(bitmap, this, blurRadius)
+}
+
+/**
+ * [android.view.View]高斯模糊
+ */
+fun View.setGaussianBlurTransformation(blurRadius : Float = 25F) {
+    // TODO View高斯模糊
 }
 
 /**

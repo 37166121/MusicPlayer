@@ -34,6 +34,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
         } else {
             PlayerBottomFragment()
         }
+        viewModel.playerPopup = PlayerPopup(this)
+        viewModel.musicListPopup = MusicListPopup(this)
     }
 
     override fun initView() {

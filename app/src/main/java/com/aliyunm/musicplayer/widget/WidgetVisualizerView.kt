@@ -184,11 +184,6 @@ class WidgetVisualizerView : View, BaseView {
     }
 
     fun drawCover(musicCover : Bitmap, canvas: Canvas) {
-        val p = Paint().apply {
-            isAntiAlias = true //去锯齿
-            color = Color.BLACK
-            style = Paint.Style.STROKE
-        }
         var bitmap = getCircleBitmap(musicCover)
         bitmap = BitmapUtils.zoomImg(bitmap, (b / 2).toInt(), (b / 2).toInt())
         canvas.drawBitmap(bitmap, getLeftSpaceBitmap(bitmap) + 0f,getTopSpaceBitmap(bitmap) + 0f, paint.apply {

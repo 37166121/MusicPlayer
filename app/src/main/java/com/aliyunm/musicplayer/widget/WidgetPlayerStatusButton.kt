@@ -141,14 +141,21 @@ class WidgetPlayerStatusButton : ProgressBar, OnClickListener, BaseView {
 
     override fun onClick(v: View?) {
         clickListener()
-        invalidate()
+        // invalidate()
     }
 
+    /**
+     * 设置进度 重绘
+     * @param progress Int
+     */
     override fun setProgress(progress: Int) {
         super.setProgress(progress)
         invalidate()
     }
 
+    /**
+     * 画播放状态
+     */
     private fun drawStatus() {
         var bitmap = if (isPlaying) {
             // 播放状态 显示暂停按钮
@@ -168,6 +175,10 @@ class WidgetPlayerStatusButton : ProgressBar, OnClickListener, BaseView {
         this.clickListener = clickListener
     }
 
+    /**
+     * 切换播放状态 重绘
+     * @param playing Boolean
+     */
     fun switchPlayStatus(playing : Boolean) {
         isPlaying = playing
         invalidate()

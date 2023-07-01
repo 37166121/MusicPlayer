@@ -26,6 +26,9 @@ class MusicViewModel : BaseViewModel() {
     var oldPosition = 0
 
     var nowPosition: Int by Delegates.observable(-1) { property, oldValue, newValue ->
+        if (oldValue == newValue) {
+            return@observable
+        }
         if (musicItems.isNotEmpty()) {
             // 如果到了第一首 点上一首 那么往第0个位置插
             if (pointer == 0) {
@@ -77,7 +80,7 @@ class MusicViewModel : BaseViewModel() {
      * 播放列表
      */
     val musicItems : LiveArrayList<MusicModel> = LiveArrayList(arrayListOf(
-        MusicModel(path = "http://192.168.1.2:8800/Man On The Moon.mp4", name = "Hello", singer = "artistName", coverPath = "http://p1.music.126.net/AiGAvupmUbL-hNQfsfSfeQ==/109951168021305745.jpg")
+        MusicModel(path = "https://vodkgeyttp8.vod.126.net/cloudmusic/7464/core/89bf/1941db1b6e25b201bdaa4186f0670f52.mp4?wsSecret=2897c3d4a23dbec89a40300409ecb904&wsTime=1688204180", name = "Hello", singer = "artistName", coverPath = "http://p1.music.126.net/AiGAvupmUbL-hNQfsfSfeQ==/109951168021305745.jpg")
     ))
 
     val sessionIdListener: MutableLiveData<Int> = MutableLiveData()
@@ -87,6 +90,9 @@ class MusicViewModel : BaseViewModel() {
      */
     var player: ExoPlayer = ExoPlayer.Builder(CommonApplication.getApplication()).build().apply {
         repeatMode = Player.REPEAT_MODE_OFF
+        musicItems.forEach {
+            addMediaItem(it.mediaItem)
+        }
         addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
@@ -120,6 +126,13 @@ class MusicViewModel : BaseViewModel() {
     var repeatMode: MutableLiveData<Int> = MutableLiveData(Player.REPEAT_MODE_OFF)
     var repeatCount: Int by Delegates.observable(repeatMode.value ?: Player.REPEAT_MODE_OFF) { property, oldValue, newValue ->
         repeatMode.value = newValue % (Player.REPEAT_MODE_ALL + 1)
+    }
+
+    /**
+     * 切换播放模式
+     */
+    fun switchMode() {
+        repeatMode.value = ++repeatCount % (Player.REPEAT_MODE_ALL + 1)
     }
 
     /**

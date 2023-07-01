@@ -21,19 +21,16 @@
             android:layout_height="wrap_content"
             android:hint="搜索" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="推荐"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_music_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_search"
-            tools:listitem="@layout/item_search_music_list"/>
+            tools:listitem="@layout/item_search_music_list" />
 
     </LinearLayout>
 

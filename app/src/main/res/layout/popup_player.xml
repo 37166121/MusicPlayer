@@ -136,6 +136,7 @@
                 android:src="@drawable/ic_next"
                 app:tint="@color/white" />
 
+            <!--id不能取iv_music_list-->
             <ImageView
                 android:id="@+id/iv_song_list"
                 android:layout_width="0dp"
