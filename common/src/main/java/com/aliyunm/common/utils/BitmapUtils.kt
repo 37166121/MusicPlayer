@@ -75,7 +75,18 @@ object BitmapUtils {
     private const val BITMAP_SCALE = 0.4f
 
     fun blur(image: Bitmap, blurRadius: Float): Bitmap {
-        return Toolkit.blur(image, radius = blurRadius.toInt())
+        var radius : Int = blurRadius.toInt()
+        // radius不在这个范围中时
+        if(radius !in 1..25) {
+            LogUtils.i("The radius should be between 1 and 25. $radius provided.")
+        }
+        if (radius < 1) {
+            radius = 1
+        }
+        if (radius > 25) {
+            radius = 25
+        }
+        return Toolkit.blur(image, radius = radius)
     }
 
     /**
