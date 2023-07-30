@@ -2,13 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.MusicPlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryVariant">@color/primary_color</item>
-        <item name="colorOnPrimary">@color/primary_color</item>
+        <item name="colorPrimary">@color/primary_default</item>
+        <item name="colorPrimaryVariant">@color/primary_default</item>
+        <item name="colorOnPrimary">@color/primary_default</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondary_color</item>
-        <item name="colorSecondaryVariant">@color/secondary_color</item>
-        <item name="colorOnSecondary">@color/secondary_color</item>
+        <item name="colorSecondary">@color/secondary_default</item>
+        <item name="colorSecondaryVariant">@color/secondary_default</item>
+        <item name="colorOnSecondary">@color/secondary_default</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/nav_overall_color</item>
@@ -21,5 +21,7 @@
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:fitsSystemWindows">true</item>
+
+        <item name="android:fontFamily">@font/notosansscmedium4</item>
     </style>
 </resources>

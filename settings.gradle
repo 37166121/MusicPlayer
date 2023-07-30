@@ -20,3 +20,4 @@ rootProject.name = "MusicPlayer"
 include ':app'
 include ':common'
 include ':renderscript-toolkit'
+include ':preference'

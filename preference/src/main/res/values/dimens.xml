@@ -1,0 +1,93 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fixed_height_bottom_padding">5sp</dimen>
+    <dimen name="page_margins_horizontal">15dp</dimen>
+    <dimen name="page_margins_vertical">15dp</dimen>
+    <dimen name="page_radian">5dp</dimen>
+    <dimen name="popup_radian">15dp</dimen>
+
+    <!-- 小                                  大 -->
+    <!-- xxs    xs    s    m    l    xl    xxl -->
+
+    <!-- vertical 垂直间距 -->
+    <dimen name="vertical_xxs_1">1dp</dimen>
+    <dimen name="vertical_xs_2">2dp</dimen>
+    <dimen name="vertical_s_4">4dp</dimen>
+    <dimen name="vertical_m_8">8dp</dimen>
+    <dimen name="vertical_l_16">16dp</dimen>
+    <dimen name="vertical_xl_32">32dp</dimen>
+    <dimen name="vertical_xxl_64">64dp</dimen>
+
+    <!-- horizontal 横向间距 -->
+    <dimen name="horizontal_xxs_1">1dp</dimen>
+    <dimen name="horizontal_xs_2">2dp</dimen>
+    <dimen name="horizontal_s_4">4dp</dimen>
+    <dimen name="horizontal_m_8">8dp</dimen>
+    <dimen name="horizontal_l_16">16dp</dimen>
+    <dimen name="horizontal_xl_32">32dp</dimen>
+    <dimen name="horizontal_xxl_64">64dp</dimen>
+
+    <!-- 内边距 -->
+    <dimen name="padding_xxs_1">1dp</dimen>
+    <dimen name="padding_xs_2">2dp</dimen>
+    <dimen name="padding_s_4">4dp</dimen>
+    <dimen name="padding_m_8">8dp</dimen>
+    <dimen name="padding_l_12">12dp</dimen>
+    <dimen name="padding_xl_16">16dp</dimen>
+    <dimen name="padding_xxl_22">22dp</dimen>
+
+    <!-- 外边距 -->
+    <dimen name="margin_xxs_1">1dp</dimen>
+    <dimen name="margin_xs_2">2dp</dimen>
+    <dimen name="margin_s_4">4dp</dimen>
+    <dimen name="margin_m_8">8dp</dimen>
+    <dimen name="margin_l_12">12dp</dimen>
+    <dimen name="margin_xl_16">16dp</dimen>
+    <dimen name="margin_xxl_22">22dp</dimen>
+
+    <!-- border 描边 -->
+    <dimen name="border_default_1">1dp</dimen>
+    <dimen name="border_s_1">1dp</dimen>
+    <dimen name="border_m_1.5">1.5dp</dimen>
+    <dimen name="border_l_2">2dp</dimen>
+
+    <!-- radius 圆角 -->
+    <!-- 徽标 / 标签 等 -->
+    <dimen name="radius_s_3">3dp</dimen>
+    <!-- 按钮 / 输入框 / 标签 等 -->
+    <dimen name="radius_m_5">5dp</dimen>
+    <!-- 卡片 -->
+    <dimen name="radius_l_10">10dp</dimen>
+    <!-- 对话框 / 弹出层 / 选择器 等 -->
+    <dimen name="radius_xl_30">30dp</dimen>
+    <!-- 胶囊型 -->
+    <dimen name="radius_round">999dp</dimen>
+
+    <!-- shadow 投影 -->
+    <dimen name="shadow_s_1">1dp</dimen>
+    <dimen name="shadow_m_3">3dp</dimen>
+    <dimen name="shadow_l_6">6dp</dimen>
+    <dimen name="shadow_xl_12">12dp</dimen>
+    <dimen name="shadow_xxl_36">36dp</dimen>
+
+    <!-- title 标题 -->
+    <dimen name="title_h1_36">36sp</dimen>
+    <dimen name="title_h1_line_height_45">45sp</dimen>
+    <dimen name="title_h2_28">28sp</dimen>
+    <dimen name="title_h2_line_height_35">35sp</dimen>
+    <dimen name="title_h3_22">22sp</dimen>
+    <dimen name="title_h3_line_height_28">28sp</dimen>
+    <dimen name="title_body_large_18">18sp</dimen>
+    <dimen name="title_body_large_line_height_24">24sp</dimen>
+    <dimen name="title_body_normal_16">16sp</dimen>
+    <dimen name="title_body_normal_line_height_22">22sp</dimen>
+    <dimen name="title_body_small_14">14sp</dimen>
+    <dimen name="title_body_small_line_height_20">20sp</dimen>
+
+    <!-- paragraph 段落 -->
+    <dimen name="paragraph_16">16sp</dimen>
+    <dimen name="paragraph_line_height_26">26sp</dimen>
+
+</resources>

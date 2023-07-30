@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="15dp"
-        android:paddingTop="15dp"
+        android:paddingHorizontal="@dimen/padding_xl_16"
+        android:paddingTop="@dimen/padding_xl_16"
         android:orientation="vertical">
 
         <TextView
@@ -25,7 +25,7 @@
             android:id="@+id/rv_music_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
+            android:paddingTop="@dimen/padding_xl_16"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

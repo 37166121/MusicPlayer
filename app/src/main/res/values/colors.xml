@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">#00000000</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="netease_music_color">#E31F00</color>
+    <color name="netease_music_color">#E60026</color>
     <color name="bg_window">#EDEDED</color>
-    <color name="primary_color">#EC4141</color>
-    <color name="secondary_color">#D86666</color>
 
     <color name="select_music_list_item">#EC4141</color>
 
@@ -16,6 +15,7 @@
 
     <color name="menu_color">#BCBCBC</color>
     <color name="setting_color">#555555</color>
+    <color name="setting_item_color">#AAAAAA</color>
 
     <color name="text_color">#555555</color>
     <color name="text_color_normal">#1E1E1E</color>
@@ -25,4 +25,69 @@
     <color name="play_button_state_color">#1E1E1E</color>
     <color name="play_button_color">#B31E1E1E</color>
     <color name="play_button_color_bg">#B3BCBCBC</color>
+
+    <!-- Primary 主要 -->
+    <!-- 默认 -->
+    <color name="primary_color">#EC4141</color>
+    <color name="primary_default">#FFFFFF</color>
+    <!-- 点击 -->
+    <color name="primary_clicked">#F2F2F2</color>
+    <!-- 悬浮 -->
+    <color name="primary_hover">#D9D9D9</color>
+    <!-- 禁用 -->
+    <color name="primary_disabled">#F2F2F2</color>
+
+    <!-- Secondary 次要 -->
+    <!-- 默认 -->
+    <color name="secondary_color">#D86666</color>
+    <color name="secondary_default">#FBE8D3</color>
+    <!-- 点击 -->
+    <color name="secondary_clicked">#FCD3A9</color>
+    <!-- 悬浮 -->
+    <color name="secondary_hover">#FDE9C7</color>
+    <!-- 禁用 -->
+    <color name="secondary_disabled">#FBE8D3</color>
+
+    <!-- Natural 中性色 -->
+    <!-- 默认 -->
+    <color name="natural_default">#FBF7F4</color>
+    <!-- 点击 -->
+    <color name="natural_clicked">#EAE5E3</color>
+    <!-- 悬浮 -->
+    <color name="natural_hover">#F2EFE9</color>
+    <!-- 禁用 -->
+    <color name="natural_disabled">#FBF7F4</color>
+
+    <!-- 功能色 -->
+
+    <!-- Successful -->
+    <!-- 默认 -->
+    <color name="successful_default">#4CAF50</color>
+    <!-- 点击 -->
+    <color name="successful_clicked">#2E7D32</color>
+    <!-- 悬浮 -->
+    <color name="successful_hover">#388E3C</color>
+    <!-- 禁用 -->
+    <color name="successful_disabled">#4CAF50</color>
+
+    <!-- Warning -->
+    <!-- 默认 -->
+    <color name="warning_default">#FFC107</color>
+    <!-- 点击 -->
+    <color name="warning_clicked">#FFA000</color>
+    <!-- 悬浮 -->
+    <color name="warning_hover">#FFB300</color>
+    <!-- 禁用 -->
+    <color name="warning_disabled">#FFC107</color>
+
+    <!-- Error -->
+    <!-- 默认 -->
+    <color name="error_default">#F44336</color>
+    <!-- 点击 -->
+    <color name="error_clicked">#D32F2F</color>
+    <!-- 悬浮 -->
+    <color name="error_hover">#E57373</color>
+    <!-- 禁用 -->
+    <color name="error_disabled">#F44336</color>
+
 </resources>

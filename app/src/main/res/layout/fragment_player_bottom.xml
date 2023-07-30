@@ -21,7 +21,7 @@
         android:id="@+id/btn_player_status"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="15dp"
+        android:padding="@dimen/padding_xl_16"
         android:max="100"
         android:min="0"
         app:layout_constraintEnd_toStartOf="@+id/iv_music_list" />

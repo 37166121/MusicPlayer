@@ -1,0 +1,35 @@
+<com.aliyunm.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.aliyunm.preference.PreferenceCategory app:title="@string/messages_header">
+
+        <com.aliyunm.preference.EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <com.aliyunm.preference.ListPreference
+            app:defaultValue="reply"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="reply"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </com.aliyunm.preference.PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <com.aliyunm.preference.SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <com.aliyunm.preference.SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+
+</com.aliyunm.preference.PreferenceScreen>

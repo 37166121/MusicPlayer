@@ -26,7 +26,7 @@
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="15dp"
+            android:paddingHorizontal="@dimen/padding_xl_16"
             android:theme="@style/Nav"
             android:background="@android:color/white"
             app:backgroundTint="@color/nav_overall_color"

@@ -1,14 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+
+    <style name="App">
+
+    </style>
+
     <style name="Theme.MusicPlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryVariant">@color/primary_color</item>
-        <item name="colorOnPrimary">@color/primary_color</item>
+        <item name="colorPrimary">@color/primary_default</item>
+        <item name="colorPrimaryVariant">@color/primary_default</item>
+        <item name="colorOnPrimary">@color/primary_default</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondary_color</item>
-        <item name="colorSecondaryVariant">@color/secondary_color</item>
-        <item name="colorOnSecondary">@color/secondary_color</item>
+        <item name="colorSecondary">@color/secondary_default</item>
+        <item name="colorSecondaryVariant">@color/secondary_default</item>
+        <item name="colorOnSecondary">@color/secondary_default</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/nav_overall_color</item>
@@ -21,6 +26,8 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:fitsSystemWindows">true</item>
+        
+        <item name="android:fontFamily">@font/notosansscmedium4</item>
 
     </style>
 
@@ -95,17 +102,19 @@
     <style name="EditText" parent="Widget.AppCompat.EditText">
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
-        <item name="android:padding">15dp</item>
+        <item name="android:padding">@dimen/padding_xl_16</item>
         <item name="android:background">@drawable/bg_edittext</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/title_body_small_14</item>
+        <item name="android:lineHeight">@dimen/title_body_small_line_height_20</item>
     </style>
 
     <style name="Button">
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
-        <item name="android:padding">15dp</item>
+        <item name="android:padding">@dimen/padding_xl_16</item>
         <item name="android:background">@drawable/bg_edittext</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/title_body_small_14</item>
+        <item name="android:lineHeight">@dimen/title_body_small_line_height_20</item>
     </style>
 
 </resources>

@@ -9,6 +9,7 @@ import com.aliyunm.common.setBlurTransformation
 import com.aliyunm.common.setImage
 import com.aliyunm.common.utils.GlideUtils
 import com.aliyunm.common.utils.ScreenUtils.getScreenHeight
+import com.aliyunm.musicplayer.R
 import com.aliyunm.musicplayer.databinding.PopupPlayerBinding
 import com.aliyunm.musicplayer.http.Service
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
@@ -27,6 +28,14 @@ class PlayerPopup(activity: ComponentActivity) : BaseBottomPopup<PopupPlayerBind
         }
         viewModel.sessionIdListener.observe(getActivity()) {
             viewBinding.visualizerView.setVisualizerEnabled(true)
+        }
+        viewModel.isPlaying.observe(getActivity()) {
+            val background = if (it) {
+                R.drawable.ic_player_pause_1
+            } else {
+                R.drawable.ic_player_play_1
+            }
+            viewBinding.ivPausePlay.setImageResource(background)
         }
     }
 

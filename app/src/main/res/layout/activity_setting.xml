@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.activity.SettingActivity">
+    tools:context=".ui.activity.SettingOtherActivity">
 
     <FrameLayout
         android:id="@+id/fl_head"
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="15dp"
+        android:paddingHorizontal="@dimen/padding_xl_16"
         app:layout_constraintTop_toBottomOf="@+id/fl_head">
 
         <EditText
@@ -24,7 +24,7 @@
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/margin_xl_16"
             android:hint="accessToken" />
 
         <EditText
@@ -32,7 +32,7 @@
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/margin_xl_16"
             android:hint="appId" />
 
         <Button
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/bg_setting_save"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/margin_xl_16"
             android:paddingStart="50dp"
             android:paddingEnd="50dp"
             android:gravity="center"
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="15dp"
+        android:padding="@dimen/padding_xl_16"
         android:text="前往云音乐开放平台"
         android:textColor="@color/primary_color"
         app:layout_constraintBottom_toBottomOf="parent" />

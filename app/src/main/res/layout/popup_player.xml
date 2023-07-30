@@ -62,7 +62,7 @@
             android:id="@+id/ll_progress"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:paddingHorizontal="15dp"
+            android:paddingHorizontal="@dimen/padding_xl_16"
             android:weightSum="20"
             app:layout_constraintBottom_toTopOf="@+id/ll_nav">
 
@@ -97,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="25dp"
-            android:paddingHorizontal="15dp"
+            android:paddingHorizontal="@dimen/padding_xl_16"
             android:weightSum="5"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -106,7 +106,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="@dimen/padding_xl_16"
                 android:src="@drawable/ic_cycle_single"
                 app:tint="@color/white" />
 
@@ -115,8 +115,8 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:padding="15dp"
-                android:src="@drawable/ic_previous"
+                android:padding="@dimen/padding_xl_16"
+                android:src="@drawable/ic_player_previous"
                 app:tint="@color/white" />
 
             <ImageView
@@ -124,7 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_pause_circle"
+                android:src="@drawable/ic_player_play"
                 app:tint="@color/white" />
 
             <ImageView
@@ -132,8 +132,8 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:padding="15dp"
-                android:src="@drawable/ic_next"
+                android:padding="@dimen/padding_xl_16"
+                android:src="@drawable/ic_player_next"
                 app:tint="@color/white" />
 
             <!--id不能取iv_music_list-->
@@ -142,7 +142,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="@dimen/padding_xl_16"
                 android:src="@drawable/ic_song_list"
                 app:tint="@color/white" />
 

@@ -18,7 +18,7 @@
         android:id="@+id/rv_music_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="15dp"
+        android:paddingTop="@dimen/padding_xl_16"
         tools:listitem="@layout/item_search_music_list"/>
 
 </LinearLayout>
