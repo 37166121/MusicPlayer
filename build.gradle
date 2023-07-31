@@ -22,6 +22,11 @@ ext {
     fourthVersionName = (versionCode % 10).toInteger()
     versionName = "${firstVersionName}.${secondVersionName}.${thirdVersionName}.${fourthVersionName}"
 
+    androidx_core_version = "1.9.0"
+    androidx_appcompat_version = "1.6.1"
+    android_material_version = "1.8.0"
+
+    glide_version = "4.13.2"
     retrofit2_version = "2.9.0"
     okhttp3_version = "5.0.0-alpha.9"
     exoplayer_version = "2.18.3"

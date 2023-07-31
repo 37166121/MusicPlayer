@@ -2,12 +2,16 @@ package com.aliyunm.musicplayer.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.aliyunm.common.ui.BaseActivity
 import com.aliyunm.musicplayer.R
+import com.aliyunm.musicplayer.databinding.SettingsActivityBinding
+import com.aliyunm.musicplayer.viewmodel.SettingViewModel
 import com.aliyunm.preference.PreferenceFragmentCompat
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity<SettingsActivityBinding, SettingViewModel>() {
     companion object {
         fun start(context: Context) {
             val starter = Intent(context, SettingsActivity::class.java)
@@ -15,9 +19,15 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState : Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
+    override fun setBinding() : SettingsActivityBinding {
+        return SettingsActivityBinding.inflate(layoutInflater)
+    }
+
+    override fun setViewModel() : Class<SettingViewModel> {
+        return SettingViewModel::class.java
+    }
+
+    override fun initData(savedInstanceState : Bundle?) {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
@@ -25,6 +35,10 @@ class SettingsActivity : AppCompatActivity() {
                 .commit()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun initView() {
+
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {

@@ -20,6 +20,15 @@
     <PreferenceCategory app:title="@string/sync_header">
 
         <com.aliyunm.preference.SwitchPreferenceCompat
+            app:key="system_theme"
+            app:title="@string/system_theme" />
+
+        <com.aliyunm.preference.SwitchPreferenceCompat
+            app:dependency="system_theme"
+            app:key="theme"
+            app:title="@string/switch_theme" />
+
+        <com.aliyunm.preference.SwitchPreferenceCompat
             app:key="sync"
             app:title="@string/sync_title" />
 

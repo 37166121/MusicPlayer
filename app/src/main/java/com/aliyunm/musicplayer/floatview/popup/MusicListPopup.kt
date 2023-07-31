@@ -1,4 +1,4 @@
-package com.aliyunm.musicplayer.popup
+package com.aliyunm.musicplayer.floatview.popup
 
 import android.graphics.Rect
 import android.graphics.drawable.Drawable

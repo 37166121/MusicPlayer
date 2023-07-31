@@ -69,9 +69,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.navigation_version"
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation "androidx.core:core-ktx:$rootProject.ext.androidx_core_version"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.androidx_appcompat_version"
+    implementation "com.google.android.material:material:$rootProject.ext.android_material_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
     testImplementation 'junit:junit:4.13.2'

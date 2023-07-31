@@ -43,18 +43,17 @@ android {
 dependencies {
 
     implementation project(path: ':renderscript-toolkit')
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation "androidx.core:core-ktx:$rootProject.ext.androidx_core_version"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.androidx_appcompat_version"
+    implementation "com.google.android.material:material:$rootProject.ext.android_material_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
 
-    def glide_version = "4.13.2"
-    implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glide_version"
     implementation('jp.wasabeef:glide-transformations:4.3.0')
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.ext.glide_version"
 
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
     implementation 'com.blankj:utilcodex:1.30.6'

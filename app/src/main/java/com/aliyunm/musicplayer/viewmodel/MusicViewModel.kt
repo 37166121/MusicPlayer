@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.aliyunm.common.CommonApplication
 import com.aliyunm.musicplayer.LiveArrayList
 import com.aliyunm.musicplayer.model.MusicModel
-import com.aliyunm.musicplayer.popup.MusicListPopup
-import com.aliyunm.musicplayer.popup.PlayerPopup
+import com.aliyunm.musicplayer.floatview.popup.MusicListPopup
+import com.aliyunm.musicplayer.floatview.popup.PlayerPopup
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
@@ -81,6 +81,7 @@ class MusicViewModel : BaseViewModel() {
      */
     val musicItems : LiveArrayList<MusicModel> = LiveArrayList(arrayListOf(
         MusicModel(path = "https://vodkgeyttp8.vod.126.net/cloudmusic/7464/core/89bf/1941db1b6e25b201bdaa4186f0670f52.mp4?wsSecret=2897c3d4a23dbec89a40300409ecb904&wsTime=1688204180", name = "Hello", singer = "artistName", coverPath = "http://p1.music.126.net/AiGAvupmUbL-hNQfsfSfeQ==/109951168021305745.jpg")
+        , MusicModel(path = "https://vodkgeyttp8.vod.126.net/cloudmusic/7464/core/89bf/1941db1b6e25b201bdaa4186f0670f52.mp4?wsSecret=2897c3d4a23dbec89a40300409ecb904&wsTime=1688204180", name = "Hello", singer = "artistName", coverPath = "http://p1.music.126.net/AiGAvupmUbL-hNQfsfSfeQ==/109951168021305745.jpg")
     ))
 
     val sessionIdListener: MutableLiveData<Int> = MutableLiveData()

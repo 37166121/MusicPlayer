@@ -27,4 +27,7 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="search">搜索</string>
+    <string name="setting_system_theme">主题跟随系统</string>
+    <string name="setting_switch_theme">切换到黑暗模式</string>
 </resources>

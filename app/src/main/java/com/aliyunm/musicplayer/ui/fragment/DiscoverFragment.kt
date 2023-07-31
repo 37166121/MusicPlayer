@@ -2,7 +2,10 @@ package com.aliyunm.musicplayer.ui.fragment
 
 import android.os.Bundle
 import com.aliyunm.common.ui.BaseFragment
+import com.aliyunm.common.utils.ThemeUtils
 import com.aliyunm.musicplayer.databinding.FragmentDiscoverBinding
+import com.aliyunm.musicplayer.databinding.SettingsActivityBinding
+import com.aliyunm.musicplayer.ui.activity.SettingsActivity
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
 
 class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, MusicViewModel>() {
@@ -20,6 +23,9 @@ class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, MusicViewModel>()
 
     override fun initView() {
         viewBinding.rvMusicList.apply {
+
+        }
+        viewBinding.tvSetting.setOnClickListener {
 
         }
     }

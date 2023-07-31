@@ -6,38 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/nav"
+    <FrameLayout
+        android:id="@+id/fragment_player_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:elevation="5dp"
-        android:background="@color/white"
+        android:layout_margin="@dimen/margin_xxl_22"
+        android:background="@drawable/bg_player_bottom"
+        android:elevation="@dimen/shadow_xxl_36"
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <FrameLayout
-            android:id="@+id/fragment_player_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/padding_xl_16"
-            android:theme="@style/Nav"
-            android:background="@android:color/white"
-            app:backgroundTint="@color/nav_overall_color"
-            app:elevation="0dp"
-            app:itemRippleColor="@null"
-            app:itemBackground="@android:color/transparent"
-            app:itemTextAppearanceActive="@style/bottom_tab_title_active"
-            app:itemTextAppearanceInactive="@style/bottom_tab_title_inactive"
-            app:menu="@menu/bottom_nav_menu" />
-
-    </LinearLayout>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_nav"

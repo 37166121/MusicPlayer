@@ -29,7 +29,7 @@ fun ImageView.setBlurTransformation(bitmap: Bitmap, blurRadius : Float = 50f) {
 }
 
 /**
- * [android.view.View]高斯模糊
+ * [View] 高斯模糊
  */
 fun View.setGaussianBlurTransformation(blurRadius : Float = 25F) {
     // TODO View高斯模糊

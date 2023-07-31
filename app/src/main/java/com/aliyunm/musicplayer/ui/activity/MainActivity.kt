@@ -1,18 +1,14 @@
 package com.aliyunm.musicplayer.ui.activity
 
-import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.aliyunm.common.ui.BaseActivity
-import com.aliyunm.common.utils.PermissionUtils
 import com.aliyunm.common.utils.SharedPreferencesUtils
 import com.aliyunm.musicplayer.R
 import com.aliyunm.musicplayer.databinding.ActivityMainBinding
-import com.aliyunm.musicplayer.popup.MusicListPopup
-import com.aliyunm.musicplayer.popup.PlayerPopup
+import com.aliyunm.musicplayer.floatview.popup.MusicListPopup
+import com.aliyunm.musicplayer.floatview.popup.PlayerPopup
 import com.aliyunm.musicplayer.ui.fragment.PlayerBottomFragment
 import com.aliyunm.musicplayer.viewmodel.MusicViewModel
 
@@ -39,12 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
     }
 
     override fun initView() {
-        val navController = findNavController(R.id.nav_host_fragment_activity_nav)
-        viewBinding.navView.apply {
-            itemIconTintList = null
-            setupWithNavController(navController)
-        }
-
         if (!playerBottomFragment.isAdded) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_player_bottom, playerBottomFragment)

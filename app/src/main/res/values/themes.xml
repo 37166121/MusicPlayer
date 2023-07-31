@@ -15,11 +15,11 @@
         <item name="colorSecondaryVariant">@color/secondary_default</item>
         <item name="colorOnSecondary">@color/secondary_default</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/nav_overall_color</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
         <!-- Customize your theme here. -->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         
         <item name="android:windowSoftInputMode">stateHidden|adjustPan</item>
 

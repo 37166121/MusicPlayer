@@ -61,7 +61,8 @@
     <!-- 卡片 -->
     <dimen name="radius_l_10">10dp</dimen>
     <!-- 对话框 / 弹出层 / 选择器 等 -->
-    <dimen name="radius_xl_30">30dp</dimen>
+    <dimen name="radius_xl_16">16dp</dimen>
+    <dimen name="radius_xxl_30">30dp</dimen>
     <!-- 胶囊型 -->
     <dimen name="radius_round">999dp</dimen>
 
