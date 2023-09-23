@@ -1,6 +1,10 @@
 package com.aliyunm.common
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -8,10 +12,82 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.aliyunm.common.utils.BitmapUtils
 import com.aliyunm.common.utils.GlideUtils
-import com.aliyunm.common.utils.ViewUtils
+import com.aliyunm.common.utils.GsonUtils
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.lang.reflect.Type
+
+/// json
+
+/**
+ * 任意类型转json字符串
+ */
+fun Any.toJson(): String {
+    return GsonUtils.toJson(this)
+}
+
+/**
+ * json转简单对象
+ * @sample fromJson<Object>()
+ */
+inline fun <reified T> Any.fromJson(): T {
+    return fromJson(this, T::class.java)
+}
+
+fun<T> fromJson(json: Any, clazz: Class<T>): T {
+    return GsonUtils.fromJson(json.toJson(), clazz)
+}
+
+/**
+ * json转复杂对象
+ * @param typeToken
+ * @sample fromJson(object : TypeToken<String>(){})
+ */
+inline fun <reified T> Any.fromJson(typeToken: TypeToken<T>): T {
+    return GsonUtils.fromJson(this, typeToken)
+}
+
+fun <T> fromJson(json: Any, type: Type): T {
+    return GsonUtils.fromJson(json, type)
+}
+
+/// Activity
+
+inline fun <reified T : Activity> Context.startActivity() {
+    startActivity<T>(null)
+}
+
+inline fun <reified T : Activity> Context.startActivity(bundle: Bundle?, vararg flags: Int) {
+    val intent = Intent(this, T::class.java)
+    if (bundle != null) {
+        intent.putExtras(bundle)
+    }
+    flags.forEach {
+        intent.addFlags(it)
+    }
+    startActivity(intent, bundle)
+}
+
+inline fun <reified T : Activity> Activity.startActivityForResult(requestCode: Int) {
+    startActivityForResult<T>(requestCode, null)
+}
+
+inline fun <reified T : Activity> Activity.startActivityForResult(
+    requestCode: Int,
+    bundle: Bundle?,
+    vararg flags: Int
+) {
+    val intent = Intent(this, T::class.java)
+    if (bundle != null) {
+        intent.putExtras(bundle)
+    }
+    flags.forEach {
+        intent.addFlags(it)
+    }
+    startActivityForResult(intent, requestCode, bundle)
+}
 
 /**
  * 设置图片
@@ -36,7 +112,7 @@ fun View.setGaussianBlurTransformation(blurRadius : Float = 25F) {
 }
 
 /**
- * EditText防抖
+ * [EditText]防抖
  */
 fun EditText.textChangeFlow(): Flow<Editable> = callbackFlow {
     // 构建输入框监听器

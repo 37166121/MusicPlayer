@@ -21,12 +21,12 @@
 
         <com.aliyunm.preference.SwitchPreferenceCompat
             app:key="system_theme"
-            app:title="@string/system_theme" />
+            app:title="@string/setting_system_theme" />
 
         <com.aliyunm.preference.SwitchPreferenceCompat
             app:dependency="system_theme"
             app:key="theme"
-            app:title="@string/switch_theme" />
+            app:title="@string/setting_switch_theme" />
 
         <com.aliyunm.preference.SwitchPreferenceCompat
             app:key="sync"

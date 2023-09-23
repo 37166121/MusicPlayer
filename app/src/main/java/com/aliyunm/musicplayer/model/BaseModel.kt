@@ -1,9 +1,9 @@
 package com.aliyunm.musicplayer.model
 
-import com.aliyunm.common.utils.GsonUtils
+import com.aliyunm.common.toJson
 
 abstract class BaseModel {
     fun toJson() : String {
-        return GsonUtils.toJson(this)
+        return (this as Any).toJson()
     }
 }

@@ -13,6 +13,7 @@ object ToastUtils {
         cancel()
         mToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
         setView(context, msg)
+        mToast?.show()
     }
 
     fun setView(context : Context, msg : String) {
@@ -22,7 +23,6 @@ object ToastUtils {
             // API 30之前适用
             mToast?.view = View(context)
         }
-        mToast?.show()
     }
 
     fun cancel() {

@@ -40,16 +40,15 @@ abstract class BasePopup<VB : ViewBinding>(activity: ComponentActivity) : PopupW
         height = h
         this.isDark = isDark
         if (isDark) {
-            AnimationUtils.Build()
-                .setStart(1f)
-                .setEnd(0.5f)
+            AnimationUtils.BuildValueAnimator()
+                .setFloatValues(1f, 0.5f)
                 .setDuration(200)
                 .setProgressListener(object : AnimationUtils.ProgressListener {
                     override fun progress(progress: Float) {
                         darkenBackground(progress)
                     }
                 })
-                .startAnimator()
+                .start()
         }
     }
 
@@ -85,16 +84,15 @@ abstract class BasePopup<VB : ViewBinding>(activity: ComponentActivity) : PopupW
     override fun dismiss() {
         super.dismiss()
         if (isDark) {
-            AnimationUtils.Build()
-                .setStart(0.5f)
-                .setEnd(1f)
+            AnimationUtils.BuildValueAnimator()
+                .setFloatValues(0.5f, 1f)
                 .setDuration(200)
                 .setProgressListener(object : AnimationUtils.ProgressListener {
                     override fun progress(progress: Float) {
                         darkenBackground(progress)
                     }
                 })
-                .startAnimator()
+                .start()
         }
     }
 

@@ -9,7 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.viewbinding.ViewBinding
 import com.aliyunm.musicplayer.R
 
-abstract class BaseBottomPopup<VB : ViewBinding>(private val activity: ComponentActivity) : BasePopup<VB>(activity) {
+abstract class BaseBottomPopup<VB : ViewBinding>(activity: ComponentActivity) : BasePopup<VB>(activity) {
 
     private var oldY: Int = 0
     private var offsetY: Int = 0
@@ -19,7 +19,7 @@ abstract class BaseBottomPopup<VB : ViewBinding>(private val activity: Component
      */
     private var threshold: Int = 4
 
-    val onTouchListener : View.OnTouchListener = View.OnTouchListener { v, event ->
+    private val onTouchListener : View.OnTouchListener = View.OnTouchListener { v, event ->
         when(event.action) {
             MotionEvent.ACTION_DOWN     -> {
                 oldY = event.rawY.toInt()
@@ -33,18 +33,25 @@ abstract class BaseBottomPopup<VB : ViewBinding>(private val activity: Component
                 viewBinding.root.invalidate()
             }
             MotionEvent.ACTION_UP       -> {
-                up()
+                return@OnTouchListener up()
             }
             MotionEvent.ACTION_CANCEL   -> {
-                up()
+                return@OnTouchListener up()
             }
         }
-        true
+
+        // 没有performClick会有警告
+        // 用@SuppressLint("ClickableViewAccessibility") 或者if (false) 屏蔽掉
+        if (false) {
+            v.performClick()
+        }
+
+        return@OnTouchListener false
     }
 
-    private fun up() {
+    private fun up() : Boolean {
         if (offsetY == 0) {
-            return
+            return false
         }
         if (offsetY > viewBinding.root.height / threshold) {
             dismiss()
@@ -52,13 +59,12 @@ abstract class BaseBottomPopup<VB : ViewBinding>(private val activity: Component
             // 回弹动画
             rebound()
         }
+        return true
     }
 
     init {
         animationStyle = R.style.PopupWindowAnimation
-        viewBinding.root.apply {
-            setOnTouchListener(onTouchListener)
-        }
+        setTouchInterceptor(onTouchListener)
     }
 
     /**
@@ -98,5 +104,12 @@ abstract class BaseBottomPopup<VB : ViewBinding>(private val activity: Component
         viewBinding.root.y = 0f
         viewBinding.root.invalidate()
         showAtLocation(View(getActivity()), Gravity.BOTTOM, 0, 0)
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        // 重置位置
+        oldY = 0
+        offsetY = 0
     }
 }

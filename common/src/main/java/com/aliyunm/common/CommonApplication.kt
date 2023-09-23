@@ -12,8 +12,7 @@ import com.aliyunm.common.utils.LogUtils
 
 abstract class CommonApplication : Application(), ViewModelStoreOwner {
 
-    private var commonViewModel: CommonViewModel
-    override lateinit var viewModelStore: ViewModelStore
+    final override var viewModelStore: ViewModelStore
 
     companion object {
         private lateinit var mApplication: CommonApplication
@@ -26,8 +25,8 @@ abstract class CommonApplication : Application(), ViewModelStoreOwner {
     init {
         mApplication = this
         viewModelStore = ViewModelStore()
-        commonViewModel = getViewModel(CommonViewModel::class.java)
         GlobalExceptionManager
+        LogUtils.initialize(BuildConfig.DEBUG)
     }
 
     fun <T : ViewModel> getViewModel(modelClass: Class<T>): T {

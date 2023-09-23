@@ -102,7 +102,7 @@
     <style name="EditText" parent="Widget.AppCompat.EditText">
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
-        <item name="android:padding">@dimen/padding_xl_16</item>
+        <item name="android:padding">@dimen/padding_m_8</item>
         <item name="android:background">@drawable/bg_edittext</item>
         <item name="android:textSize">@dimen/title_body_small_14</item>
         <item name="android:lineHeight">@dimen/title_body_small_line_height_20</item>

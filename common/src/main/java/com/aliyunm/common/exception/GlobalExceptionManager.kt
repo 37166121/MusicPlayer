@@ -1,7 +1,5 @@
 package com.aliyunm.common.exception
 
-import android.os.Handler
-import android.os.Looper
 import android.util.MalformedJsonException
 import com.aliyunm.common.CommonApplication
 import com.aliyunm.common.utils.LogUtils
@@ -46,7 +44,7 @@ object GlobalExceptionManager : Thread.UncaughtExceptionHandler {
 
             else -> ex.localizedMessage ?: return false
         }
-        LogUtils.e(ex.stackTraceToString(), msg)
+        LogUtils.e(ex.stackTraceToString(), msg, tag = TAG)
         ToastUtils.show(CommonApplication.getApplication(), msg)
         return true
     }

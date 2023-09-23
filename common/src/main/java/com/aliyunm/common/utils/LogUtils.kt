@@ -1,37 +1,47 @@
 package com.aliyunm.common.utils
 
 import android.util.Log
+import com.aliyunm.common.BuildConfig
 import com.aliyunm.common.exception.GlobalExceptionManager
 
 object LogUtils {
 
-    private var isDebug: Boolean = true
+    private var isDebug: Boolean = BuildConfig.DEBUG
 
     fun initialize(isDebug: Boolean) {
         this.isDebug = isDebug
     }
 
-    fun i(msg : String, tag : String = "info") {
+    fun i(vararg msg : String, tag : String = "info") {
         if (isDebug) {
-            Log.i(tag, msg)
+            msg.forEachIndexed { index, s ->
+                Log.i("$tag[$index]:", s)
+            }
         }
     }
 
-    fun d(msg : String, tag : String = "debug") {
+    fun d(vararg msg : String, tag : String = "debug") {
         if (isDebug) {
-            Log.d(tag, msg)
+            msg.forEachIndexed { index, s ->
+                Log.d("$tag[$index]:", s)
+            }
         }
     }
 
-    fun w(msg : String, tag : String = "warn") {
+    fun w(vararg msg : String, tag : String = "warn") {
         if (isDebug) {
-            Log.w(tag, msg)
+            msg.forEachIndexed { index, s ->
+                Log.w("$tag[$index]:", s)
+            }
         }
     }
 
-    fun e(msg : String, tag : String = "error") {
-        Log.e(tag, msg)
-        if (!isDebug) {
+    fun e(vararg msg : String, tag : String = "error") {
+        if (isDebug) {
+            msg.forEachIndexed { index, s ->
+                Log.e("$tag[$index]:", s)
+            }
+        } else {
             log2file()
         }
     }

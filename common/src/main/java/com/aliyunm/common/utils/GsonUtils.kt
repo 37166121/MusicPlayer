@@ -7,30 +7,42 @@ import java.lang.reflect.Type
 
 object GsonUtils {
     fun toJson(any: Any): String {
-        val gson: Gson = Gson()
-        return gson.toJson(any)
+        return Gson().toJson(any)
     }
 
-    fun<T> fromJson(json : String, classOfT : Class<T>) : T {
-        val gson : Gson = Gson()
-        return gson.fromJson(json, classOfT)
+    inline fun<reified T> fromJson(json : String) : T {
+        return fromJson(json, T::class.java)
     }
 
-    fun<T> fromJson(json : String, typeToken : TypeToken<T>) : T {
+    fun<T> fromJson(json : Any, typeToken : TypeToken<T>) : T {
         return fromJson(json, typeToken.type)
     }
 
-    fun<T> fromJson(json : Reader, typeToken : TypeToken<T>) : T {
-        return fromJson(json, typeToken.type)
+    fun<T> fromJson(json : Any, type : Type) : T {
+        return when(json) {
+            is String -> {
+                fromJson(json, type)
+            }
+
+            is Reader -> {
+                fromJson(json, type)
+            }
+
+            else -> {
+                fromJson(toJson(json), object : TypeToken<Any>(){}.type)
+            }
+        }
+    }
+
+    fun<T> fromJson(json : String, clazz : Class<T>) : T {
+        return Gson().fromJson(json, clazz)
     }
 
     fun<T> fromJson(json : String, type : Type) : T {
-        val gson : Gson = Gson()
-        return gson.fromJson(json, type)
+        return Gson().fromJson(json, type)
     }
 
     fun<T> fromJson(json : Reader, type : Type) : T {
-        val gson : Gson = Gson()
-        return gson.fromJson(json, type)
+        return Gson().fromJson(json, type)
     }
 }
