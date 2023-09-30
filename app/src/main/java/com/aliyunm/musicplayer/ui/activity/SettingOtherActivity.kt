@@ -62,7 +62,6 @@ class SettingOtherActivity : BaseActivity<ActivitySettingBinding, SettingViewMod
         val appId = viewBinding.etAppId.text.toString()
         SharedPreferencesUtils.putString(ACCESSTOKEN, accessToken)
             .putString(APPID, appId)
-            .commit()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

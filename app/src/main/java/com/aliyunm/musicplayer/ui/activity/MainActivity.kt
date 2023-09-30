@@ -50,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MusicViewModel>() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.player.release()
-        SharedPreferencesUtils.putInt(SharedPreferencesUtils.POSITION, viewModel.nowPosition).commit()
+        SharedPreferencesUtils.putInt(SharedPreferencesUtils.POSITION, viewModel.nowPosition)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

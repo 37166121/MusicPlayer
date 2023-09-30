@@ -33,31 +33,37 @@ object SharedPreferencesUtils {
 
     fun putString(key : String, value : String) : SharedPreferencesUtils {
         mEditor.putString(key, value)
+        commit()
         return this
     }
 
     fun putStringSet(key : String, values : Set<String>) : SharedPreferencesUtils {
         mEditor.putStringSet(key, values)
+        commit()
         return this
     }
 
     fun putInt(key : String, value : Int) : SharedPreferencesUtils {
         mEditor.putInt(key, value)
+        commit()
         return this
     }
 
     fun putLong(key : String, value : Long) : SharedPreferencesUtils {
         mEditor.putLong(key, value)
+        commit()
         return this
     }
 
     fun putFloat(key : String, value : Float) : SharedPreferencesUtils {
         mEditor.putFloat(key, value)
+        commit()
         return this
     }
 
     fun putBoolean(key : String, value : Boolean) : SharedPreferencesUtils {
         mEditor.putBoolean(key, value)
+        commit()
         return this
     }
 

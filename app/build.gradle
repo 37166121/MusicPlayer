@@ -88,7 +88,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer:$rootProject.ext.exoplayer_version"
 
     implementation 'androidx.palette:palette-ktx:1.0.0'
-    implementation 'androidx.webkit:webkit:1.6.1'
+    implementation 'androidx.webkit:webkit:1.8.0'
 
     // room
     implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
